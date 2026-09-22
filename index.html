@@ -33,7 +33,6 @@
       50% { transform: scale(1.08); }
     }
 
-    /* Custom Scrollbar for Leaderboard */
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -58,23 +57,9 @@
       
       <!-- Logo + Department Title -->
       <div class="flex items-center space-x-3">
-        <!-- Embedded SVG JKE Logo (Blue-Red Circuit) -->
-        <div class="w-11 h-11 flex-shrink-0 bg-white rounded-full p-0.5 border border-slate-200 shadow-sm">
-          <svg viewBox="0 0 1000 1000" class="w-full h-full">
-            <circle cx="500" cy="500" r="480" fill="#000000" />
-            <!-- Left Side: Cyan Circuit -->
-            <path d="M 480 80 A 420 420 0 0 0 480 920 L 480 730 A 230 230 0 0 1 480 270 Z" fill="#0099FF" />
-            <path d="M 460 140 L 410 140 L 410 280 L 320 370 L 320 450 L 220 450" stroke="#0099FF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="220" cy="450" r="35" fill="#0099FF" />
-            <circle cx="320" cy="670" r="35" fill="#0099FF" />
-            <path d="M 460 860 L 410 860 L 410 740 L 320 670" stroke="#0099FF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="320" cy="390" r="75" fill="none" stroke="#0099FF" stroke-width="35" />
-            <!-- Right Side: Red Energy Waves -->
-            <path d="M 520 80 A 420 420 0 0 1 520 920 L 520 780 A 280 280 0 0 0 520 220 Z" fill="#FF2A2A" />
-            <path d="M 520 220 A 280 280 0 0 1 520 780 L 520 640 A 140 140 0 0 0 520 360 Z" fill="#D61C1C" />
-            <path d="M 520 360 A 140 140 0 0 1 520 640 L 520 500 Z" fill="#B01010" />
-            <circle cx="530" cy="500" r="30" fill="#FF2A2A" />
-          </svg>
+        <!-- Logo Image File -->
+        <div class="w-11 h-11 flex-shrink-0 bg-white rounded-full p-0.5 border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center">
+          <img src="logo.jpg" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='logo.png';">
         </div>
 
         <div>
@@ -107,6 +92,11 @@
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-bold mb-5">
         <i class="fa-solid fa-bolt-lightning text-red-500"></i>
         <span>Cabaran Ketangkasan Minda Staf JKE</span>
+      </div>
+
+      <!-- Large Center Logo Display -->
+      <div class="w-24 h-24 mx-auto mb-4 bg-white rounded-full p-1 border-2 border-slate-200 shadow-md flex items-center justify-center overflow-hidden">
+        <img src="logo.jpg" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='logo.png';">
       </div>
 
       <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
@@ -430,7 +420,7 @@
     let currentPlayer = "Staf JKE";
 
     /* ==========================================================
-       3. SYNTHESIZED AUDIO (Web Audio API - Ticking & Heartbeat)
+       3. SYNTHESIZED AUDIO (Web Audio API)
        ========================================================== */
     let audioCtx = null;
     
@@ -452,8 +442,8 @@
           osc.connect(gain);
           gain.connect(audioCtx.destination);
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, now); // C5
-          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15);
           gain.gain.setValueAtTime(0.3, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
           osc.start(now);
@@ -465,8 +455,8 @@
           osc.connect(gain);
           gain.connect(audioCtx.destination);
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(220, now); // A3
-          osc.frequency.setValueAtTime(164.81, now + 0.12); // E3
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.setValueAtTime(164.81, now + 0.12);
           gain.gain.setValueAtTime(0.3, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
           osc.start(now);
@@ -485,7 +475,6 @@
           osc.stop(now + 0.05);
 
         } else if (type === 'heartbeat') {
-          // Sub-bass heartbeat 'Lub-Dub' sound
           const osc1 = audioCtx.createOscillator();
           const gain1 = audioCtx.createGain();
           osc1.connect(gain1);
@@ -498,7 +487,6 @@
           osc1.start(now);
           osc1.stop(now + 0.08);
 
-          // Second beat 'Dub'
           setTimeout(() => {
             if (!soundEnabled || isAnswered) return;
             const now2 = audioCtx.currentTime;
@@ -546,7 +534,6 @@
       nameErr.classList.add('hidden');
       currentPlayer = val;
 
-      // Reset values
       currentQuestionIdx = 0;
       score = 0;
       streak = 0;
@@ -568,7 +555,6 @@
 
       const q = quizData[currentQuestionIdx];
 
-      // Update UI Header
       document.getElementById('currentQuestionNum').innerText = currentQuestionIdx + 1;
       document.getElementById('totalQuestionsNum').innerText = quizData.length;
       document.getElementById('currentScore').innerText = score;
@@ -578,14 +564,12 @@
       document.getElementById('nextBtn').classList.add('hidden');
       document.getElementById('explanationBox').classList.add('hidden');
 
-      // Reset Timer Container Style
       const timerContainer = document.getElementById('timerContainer');
       const timerIcon = document.getElementById('timerIcon');
       timerContainer.className = "flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 transition-colors";
       timerIcon.className = "fa-solid fa-stopwatch text-slate-600 text-sm";
       document.getElementById('timeLeft').className = "text-base font-black text-slate-800 w-6 text-center";
 
-      // Streak UI Badge
       const streakBadge = document.getElementById('streakBadge');
       if (streak >= 2) {
         streakBadge.classList.remove('invisible');
@@ -594,11 +578,9 @@
         streakBadge.classList.add('invisible');
       }
 
-      // Progress bar animation
       const progress = ((currentQuestionIdx) / quizData.length) * 100;
       document.getElementById('progressBar').style.width = `${progress}%`;
 
-      // Render Options
       const optionsContainer = document.getElementById('optionsContainer');
       optionsContainer.innerHTML = '';
 
@@ -620,12 +602,10 @@
         optionsContainer.appendChild(btn);
       });
 
-      // Start Ticking Timer
       timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timeLeft').innerText = timeLeft;
 
-        // Emergency Heartbeat Audio & Red Flashing UI (Last 5 seconds)
         if (timeLeft <= 5 && timeLeft > 0) {
           playTone('heartbeat');
           timerContainer.className = "flex items-center space-x-2 bg-red-50 border-2 border-red-500 px-4 py-2 rounded-full pulse-heart";
@@ -664,12 +644,10 @@
 
         playTone('correct');
 
-        // Style Selected Button as Correct
         selectedBtn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-950 font-semibold text-sm sm:text-base flex items-center justify-between shadow-sm";
         selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
         selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
 
-        // Explanation Banner
         explanationBox.className = "mt-4 p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50 text-emerald-900 block";
         explanationIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i>';
         explanationTitle.innerText = `Tepat Sekali! (+${earned} Mata)`;
@@ -679,12 +657,10 @@
         streak = 0;
         playTone('wrong');
 
-        // Style Selected Button as Wrong
         selectedBtn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-red-50 border-2 border-red-500 text-red-950 font-semibold text-sm sm:text-base flex items-center justify-between shadow-sm";
         selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-xmark text-red-600"></i>';
         selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
 
-        // Show Correct Answer
         allOptionButtons.forEach(btn => {
           const textSpan = btn.querySelector('.option-label');
           if (textSpan && currentQ.options.find(o => o.text === textSpan.innerText && o.isCorrect)) {
@@ -884,7 +860,6 @@
       window.open(whatsappUrl, '_blank');
     }
 
-    // Enter Key Handler for Player Name
     document.getElementById('playerName').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         startQuiz();
