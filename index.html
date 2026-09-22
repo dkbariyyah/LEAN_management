@@ -3,267 +3,290 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cabaran Mini Kuiz LEAN - JKE (Mesra Pengguna)</title>
+  <title>Cabaran Mini Kuiz LEAN - JKE</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-    
     body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #fee2e2 100%);
-      min-height: 100vh;
-      color: #0f172a;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    
+    .pulse-heart {
+      animation: heartbeat 1s infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
 
-    /* Animasi denyutan waktu cemas */
-    .timer-alert {
-      animation: alertPulse 0.6s infinite alternate;
+    /* Custom Scrollbar for Leaderboard */
+    ::-webkit-scrollbar {
+      width: 6px;
     }
-
-    @keyframes alertPulse {
-      from { transform: scale(1); background-color: #fee2e2; border-color: #ef4444; }
-      to { transform: scale(1.05); background-color: #dc2626; border-color: #991b1b; color: #ffffff; }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
     }
-
-    .heartbeat-icon {
-      animation: heartPulse 1.2s ease-in-out infinite;
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
     }
-
-    @keyframes heartPulse {
-      0% { transform: scale(1); }
-      14% { transform: scale(1.18); }
-      28% { transform: scale(1); }
-      42% { transform: scale(1.12); }
-      70% { transform: scale(1); }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
   </style>
 </head>
-<body class="flex flex-col justify-between selection:bg-red-600 selection:text-white">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
 
-  <!-- Header / Nav Utama (Terang, Berkontras Tinggi & Profesional) -->
-  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center space-x-3.5">
-        <div class="w-12 h-12 rounded-2xl bg-red-600 flex items-center justify-center text-white shadow-md shadow-red-500/20">
-          <i class="fa-solid fa-fire text-amber-300 text-xl"></i>
+  <!-- TOP HEADER WITH JKE LOGO -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between">
+      
+      <!-- Logo + Department Title -->
+      <div class="flex items-center space-x-3">
+        <!-- Embedded SVG JKE Logo (Blue-Red Circuit) -->
+        <div class="w-11 h-11 flex-shrink-0 bg-white rounded-full p-0.5 border border-slate-200 shadow-sm">
+          <svg viewBox="0 0 1000 1000" class="w-full h-full">
+            <circle cx="500" cy="500" r="480" fill="#000000" />
+            <!-- Left Side: Cyan Circuit -->
+            <path d="M 480 80 A 420 420 0 0 0 480 920 L 480 730 A 230 230 0 0 1 480 270 Z" fill="#0099FF" />
+            <path d="M 460 140 L 410 140 L 410 280 L 320 370 L 320 450 L 220 450" stroke="#0099FF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="220" cy="450" r="35" fill="#0099FF" />
+            <circle cx="320" cy="670" r="35" fill="#0099FF" />
+            <path d="M 460 860 L 410 860 L 410 740 L 320 670" stroke="#0099FF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="320" cy="390" r="75" fill="none" stroke="#0099FF" stroke-width="35" />
+            <!-- Right Side: Red Energy Waves -->
+            <path d="M 520 80 A 420 420 0 0 1 520 920 L 520 780 A 280 280 0 0 0 520 220 Z" fill="#FF2A2A" />
+            <path d="M 520 220 A 280 280 0 0 1 520 780 L 520 640 A 140 140 0 0 0 520 360 Z" fill="#D61C1C" />
+            <path d="M 520 360 A 140 140 0 0 1 520 640 L 520 500 Z" fill="#B01010" />
+            <circle cx="530" cy="500" r="30" fill="#FF2A2A" />
+          </svg>
         </div>
+
         <div>
-          <div class="flex items-center space-x-2">
-            <span class="text-[11px] tracking-wider font-extrabold uppercase text-red-700">JABATAN KEJURUTERAAN ELEKTRIK</span>
-            <span class="text-[10px] bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full font-bold uppercase">Siri 1 - 3</span>
-          </div>
-          <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">Mini Kuiz Celik LEAN JKE</h1>
+          <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-slate-900 leading-tight">
+            JABATAN KEJURUTERAAN ELEKTRIK
+          </h1>
+          <p class="text-xs font-semibold text-cyan-600">Pengurusan LEAN (Siri Hebahan 1 - 3)</p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-2">
-        <button id="soundToggleBtn" onclick="toggleSound()" title="Kawalan Audio" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-sm">
-          <i id="soundIcon" class="fa-solid fa-volume-high text-red-600"></i>
-          <span id="soundLabel" class="hidden sm:inline">Kesan Audio</span>
-        </button>
-      </div>
+      <!-- Sound Toggle Button -->
+      <button id="soundToggleBtn" onclick="toggleSound()" title="Tukar Kesan Audio" 
+              class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 transition flex items-center space-x-2 text-xs font-semibold">
+        <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-600"></i>
+        <span class="hidden sm:inline">Kesan Audio</span>
+      </button>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-6 sm:py-8 w-full flex-grow flex items-center justify-center">
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-2xl mx-auto px-4 py-6 w-full flex-grow flex items-center justify-center">
 
-    <!-- 1. START SCREEN (Reka Bentuk Terang, Tulisan Jelas & Butang Besar) -->
-    <div id="startScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden text-center">
+    <!-- 1. START SCREEN -->
+    <div id="startScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center relative overflow-hidden">
       
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-bold tracking-wide uppercase mb-5">
-        <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping mr-1"></span>
-        Uji Kefahaman & Ketangkasan Minda
+      <!-- Decorative Header Wave -->
+      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-red-500"></div>
+
+      <!-- Department Emblem & Badge -->
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-bold mb-5">
+        <i class="fa-solid fa-bolt-lightning text-red-500"></i>
+        <span>Cabaran Ketangkasan Minda Staf JKE</span>
       </div>
 
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3 leading-tight">
-        Cabaran Kilat Pengurusan LEAN
+      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
+        Mini Kuiz Kilat <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-700">Pengurusan LEAN</span>
       </h2>
-      <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto mb-8 font-medium leading-relaxed">
-        Buktikan kepekaan anda terhadap <strong>Konsep 3P, 3 Elemen Utama, Matlamat EFISIEN</strong> dan <strong>8 Pembaziran (TIM WOODS)</strong> berdasarkan hebahan e-poster jabatan.
+      
+      <p class="text-slate-600 text-sm sm:text-base max-w-lg mx-auto mb-6 leading-relaxed">
+        Uji kefahaman anda mengenai <strong>Konsep 3P, 3 Elemen, 7 Kluster, dan 8 Pembaziran (TIM WOODS)</strong> yang telah diedarkan.
       </p>
 
-      <!-- Input Nama Peserta (Kontras Tinggi untuk Staf) -->
-      <div class="max-w-md mx-auto mb-7 text-left">
-        <label for="playerName" class="block text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">
-          Nama Penuh / Nama Panggilan Staf
+      <!-- Input Nama Peserta -->
+      <div class="max-w-sm mx-auto mb-6 text-left">
+        <label for="playerName" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+          Nama Staf / Kod Pensyarah
         </label>
         <div class="relative">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
-            <i class="fa-regular fa-user text-base"></i>
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+            <i class="fa-regular fa-user"></i>
           </span>
-          <input type="text" id="playerName" maxlength="26" placeholder="Cth: Ts. Azman / Pn. Faridah" 
-                 class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-slate-50 border-2 border-slate-300 focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-100 text-slate-900 placeholder-slate-400 outline-none text-base font-semibold transition shadow-sm">
+          <input type="text" id="playerName" maxlength="25" placeholder="Cth: Ts. Azman / En. Hafiz" 
+                 class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-50 border-2 border-slate-200 focus:border-cyan-500 focus:bg-white text-slate-900 placeholder-slate-400 outline-none text-sm font-medium transition">
         </div>
-        <p id="nameError" class="text-xs sm:text-sm text-red-600 mt-2 hidden font-bold flex items-center space-x-1.5">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span>Sila masukkan nama anda terlebih dahulu sebelum mula!</span>
-        </p>
+        <p id="nameError" class="text-xs text-red-600 mt-1.5 hidden font-semibold">Sila masukkan nama untuk merekod skor anda!</p>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto">
-        <button onclick="startQuiz()" class="w-full py-4 px-6 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-base uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transition-all transform active:scale-98 flex items-center justify-center space-x-2.5">
-          <span>Mulakan Kuiz</span>
-          <i class="fa-solid fa-play text-sm"></i>
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
+        <button onclick="startQuiz()" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-base shadow-lg shadow-cyan-600/25 transition transform active:scale-95 flex items-center justify-center space-x-2">
+          <span>Mula Cabaran</span>
+          <i class="fa-solid fa-play text-xs"></i>
         </button>
-        <button onclick="openLeaderboardModal()" class="w-full sm:w-auto py-4 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center space-x-2 border border-slate-300 shadow-sm">
-          <i class="fa-solid fa-trophy text-amber-500 text-lg"></i>
+        <button onclick="openLeaderboardModal()" class="w-full sm:w-auto py-4 px-5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition flex items-center justify-center space-x-2 border border-slate-200">
+          <i class="fa-solid fa-trophy text-amber-500"></i>
           <span>Papan Skor</span>
         </button>
       </div>
 
-      <!-- Kad Penerangan Ringkas -->
-      <div class="grid grid-cols-3 gap-3.5 mt-9 pt-7 border-t border-slate-200 text-center">
-        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-stopwatch"></i></div>
-          <div class="text-xs text-slate-500 font-bold uppercase">Masa Menjawab</div>
-          <div class="text-base font-extrabold text-slate-800">15 Saat</div>
+      <!-- Quick Info Badges -->
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 mt-8 pt-6 border-t border-slate-100 text-center">
+        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-200/80">
+          <div class="text-red-500 text-sm mb-0.5"><i class="fa-regular fa-clock"></i></div>
+          <div class="text-[11px] text-slate-500 font-semibold">Masa / Soalan</div>
+          <div class="text-xs sm:text-sm font-extrabold text-slate-800">15 Saat</div>
         </div>
-        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-heart-pulse heartbeat-icon"></i></div>
-          <div class="text-xs text-slate-500 font-bold uppercase">Kesan Audio</div>
-          <div class="text-base font-extrabold text-slate-800">Debaran Masa</div>
+        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-200/80">
+          <div class="text-cyan-600 text-sm mb-0.5"><i class="fa-solid fa-fire"></i></div>
+          <div class="text-[11px] text-slate-500 font-semibold">Bonus Kombo</div>
+          <div class="text-xs sm:text-sm font-extrabold text-slate-800">2x Multiplier</div>
         </div>
-        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-bolt"></i></div>
-          <div class="text-xs text-slate-500 font-bold uppercase">Bonus Kombo</div>
-          <div class="text-base font-extrabold text-slate-800">Mata Pantas</div>
+        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-2xl border border-slate-200/80">
+          <div class="text-blue-600 text-sm mb-0.5"><i class="fa-solid fa-list-check"></i></div>
+          <div class="text-[11px] text-slate-500 font-semibold">Jumlah Soalan</div>
+          <div class="text-xs sm:text-sm font-extrabold text-slate-800">7 Soalan JKE</div>
         </div>
       </div>
     </div>
 
-    <!-- 2. QUIZ SCREEN (Kontras Tinggi, Saiz Tulisan Selesa Dibaca) -->
-    <div id="quizScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-5 sm:p-9 shadow-xl hidden">
+    <!-- 2. QUIZ SCREEN -->
+    <div id="quizScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-5 sm:p-8 shadow-xl hidden relative">
       
-      <!-- Bar Maklumat Atas: Soalan, Pemasa & Mata -->
-      <div class="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-200">
-        <!-- Bilangan Soalan -->
+      <!-- Top Status Bar -->
+      <div class="flex items-center justify-between gap-2 mb-4 pb-4 border-b border-slate-100">
+        <!-- Question Tracker -->
         <div>
-          <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Soalan</span>
-          <div class="text-lg sm:text-xl font-black text-slate-900">
-            <span id="currentQuestionNum" class="text-red-600">1</span> / <span id="totalQuestionsNum">7</span>
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Soalan</span>
+          <div class="text-base font-black text-slate-800">
+            <span id="currentQuestionNum" class="text-cyan-600">1</span> / <span id="totalQuestionsNum">7</span>
           </div>
         </div>
 
-        <!-- Pemasa Detik Debaran (Besar & Jelas) -->
-        <div id="timerContainer" class="flex items-center space-x-2.5 bg-slate-100 px-4 py-2 rounded-2xl border border-slate-300 transition-all">
-          <i id="timerIcon" class="fa-solid fa-heart-pulse text-red-600 text-base heartbeat-icon"></i>
-          <span id="timeLeft" class="text-2xl font-black text-red-600 tracking-wider w-8 text-center">15</span>
-          <span class="text-xs font-bold text-slate-500 hidden sm:inline">saat</span>
+        <!-- Heartbeat Animated Timer -->
+        <div id="timerContainer" class="flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 transition-colors">
+          <i id="timerIcon" class="fa-solid fa-stopwatch text-slate-600 text-sm"></i>
+          <span id="timeLeft" class="text-base font-black text-slate-800 w-6 text-center">15</span>
         </div>
 
-        <!-- Markah Terkumpul -->
+        <!-- Current Score -->
         <div class="text-right">
-          <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Markah Anda</span>
-          <div class="text-lg sm:text-xl font-black text-slate-900" id="currentScore">0</div>
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Skor Semasa</span>
+          <div class="text-base font-black text-emerald-600" id="currentScore">0</div>
         </div>
       </div>
 
-      <!-- Label Sumber Siri & Indikator Kombo -->
-      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <span id="sourceTag" class="text-xs font-extrabold px-3 py-1.5 rounded-xl bg-red-50 text-red-700 border border-red-200">
-          Hebahan Lean Siri 1/2026
+      <!-- Streak & Source Banner -->
+      <div class="flex items-center justify-between mb-3">
+        <div id="streakBadge" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 invisible">
+          <i class="fa-solid fa-fire text-amber-500"></i>
+          <span id="streakText">2x STREAK BONUS!</span>
+        </div>
+        <span id="sourceTag" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-50 text-cyan-700 border border-cyan-200">
+          Hebahan Siri 1/2026
         </span>
-        <div id="streakBadge" class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-900 border border-amber-300 uppercase tracking-wider invisible">
-          <i class="fa-solid fa-fire text-amber-600"></i>
-          <span id="streakText">2x JAWAPAN BERTURUTAN!</span>
-        </div>
       </div>
 
-      <!-- Bar Kemajuan Garisan Merah -->
-      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mb-6">
-        <div id="progressBar" class="bg-red-600 h-full w-0 transition-all duration-300"></div>
+      <!-- Progress Bar -->
+      <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-6 border border-slate-200/50">
+        <div id="progressBar" class="bg-gradient-to-r from-cyan-500 to-blue-600 h-full w-0 transition-all duration-300"></div>
       </div>
 
-      <!-- Teks Soalan (Saiz Besar, Hitam Pekat & Sangat Jelas) -->
+      <!-- Question Text -->
       <div class="mb-6">
-        <h3 id="questionText" class="text-lg sm:text-2xl font-bold text-slate-900 leading-relaxed tracking-tight">
+        <h3 id="questionText" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
           Soalan akan dimuatkan di sini...
         </h3>
       </div>
 
-      <!-- Senarai Pilihan Jawapan (Kad Putih Berbingkai Jelas, Mudah Ditekan) -->
-      <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
-        <!-- Pilihan dimuatkan secara dinamik -->
+      <!-- Options Container -->
+      <div id="optionsContainer" class="grid grid-cols-1 gap-3 mb-4">
+        <!-- Options generated dynamically -->
       </div>
 
-      <!-- Kotak Ulasan / Maklum Balas Jawapan -->
-      <div id="explanationBox" class="hidden mt-5 p-4 sm:p-5 rounded-2xl border transition-all text-sm leading-relaxed">
-        <div class="flex items-start space-x-3.5">
-          <span id="explanationIcon" class="text-2xl mt-0.5"></span>
+      <!-- Explanation Box -->
+      <div id="explanationBox" class="hidden mt-4 p-4 rounded-2xl border text-sm leading-relaxed">
+        <div class="flex items-start space-x-3">
+          <span id="explanationIcon" class="text-lg mt-0.5"></span>
           <div>
-            <h4 id="explanationTitle" class="font-extrabold text-base mb-1"></h4>
-            <p id="explanationText" class="text-slate-700 text-sm sm:text-base leading-normal font-medium"></p>
+            <h4 id="explanationTitle" class="font-bold mb-0.5"></h4>
+            <p id="explanationText" class="text-slate-700 text-xs sm:text-sm font-medium"></p>
           </div>
         </div>
       </div>
 
-      <!-- Butang Seterusnya (Besar & Kontras) -->
+      <!-- Next Button Area -->
       <div class="mt-6 flex justify-end">
-        <button id="nextBtn" onclick="nextQuestion()" class="hidden px-7 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-md transition items-center space-x-2">
+        <button id="nextBtn" onclick="nextQuestion()" class="hidden px-6 py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow-lg shadow-cyan-600/20 transition items-center space-x-2">
           <span>Soalan Seterusnya</span>
-          <i class="fa-solid fa-arrow-right text-sm"></i>
+          <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
     </div>
 
-    <!-- 3. RESULT SCREEN (Paparan Tahniah, Skor & Perkongsian WhatsApp) -->
+    <!-- 3. RESULT SCREEN -->
     <div id="resultScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center hidden">
       
-      <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-red-600 text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-red-500/30">
-        <i class="fa-solid fa-award"></i>
+      <!-- Trophy Icon -->
+      <div class="w-20 h-20 mx-auto mb-4 rounded-3xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-500 text-3xl font-black shadow-inner">
+        <i class="fa-solid fa-trophy"></i>
       </div>
 
-      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
-        Tahniah, <span id="finalPlayerName" class="text-red-600"></span>!
-      </h2>
-      <p id="resultRemark" class="text-sm sm:text-base text-slate-600 mb-6 font-medium">
-        Anda telah melengkapkan Kuiz Pengurusan LEAN JKE.
-      </p>
+      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Tahniah, <span id="finalPlayerName" class="text-cyan-600"></span>!</h2>
+      <p id="resultRemark" class="text-xs sm:text-sm text-slate-600 mb-6 font-medium">Anda telah menamatkan Cabaran Pengurusan LEAN JKE.</p>
 
-      <!-- Kad Ringkasan Skor -->
-      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-7 max-w-md mx-auto grid grid-cols-2 gap-4 text-center">
-        <div>
-          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">Jumlah Markah</span>
-          <span id="finalScore" class="text-3xl sm:text-4xl font-black text-slate-900">0</span>
+      <!-- Score Card -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 max-w-md mx-auto grid grid-cols-2 gap-4 text-center">
+        <div class="bg-white p-3 rounded-xl border border-slate-200/80 shadow-sm">
+          <span class="text-[11px] text-slate-400 font-bold block uppercase">Jumlah Skor</span>
+          <span id="finalScore" class="text-2xl sm:text-3xl font-black text-cyan-600">0</span>
         </div>
-        <div>
-          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">Ketepatan</span>
-          <span id="finalAccuracy" class="text-3xl sm:text-4xl font-black text-red-600">0%</span>
+        <div class="bg-white p-3 rounded-xl border border-slate-200/80 shadow-sm">
+          <span class="text-[11px] text-slate-400 font-bold block uppercase">Ketepatan</span>
+          <span id="finalAccuracy" class="text-2xl sm:text-3xl font-black text-emerald-600">0%</span>
         </div>
-        <div class="border-t border-slate-200 pt-3.5">
-          <span class="text-xs text-slate-500 font-bold block">Jawapan Betul</span>
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-sm">
+          <span class="text-[11px] text-slate-400 font-bold block">Jawapan Betul</span>
           <span id="correctCount" class="text-base font-extrabold text-slate-800">0</span>
         </div>
-        <div class="border-t border-slate-200 pt-3.5">
-          <span class="text-xs text-slate-500 font-bold block">Kombo Maksimum</span>
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-sm">
+          <span class="text-[11px] text-slate-400 font-bold block">Kombo Maksimum</span>
           <span id="maxComboText" class="text-base font-extrabold text-amber-600">0x</span>
         </div>
       </div>
 
-      <!-- Butang Tindakan -->
-      <div class="space-y-3.5 max-w-sm mx-auto">
-        <!-- Butang Kongsi ke WhatsApp JKE -->
-        <button onclick="shareWhatsApp()" class="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base shadow-lg shadow-emerald-600/25 transition flex items-center justify-center space-x-2.5">
-          <i class="fa-brands fa-whatsapp text-2xl"></i>
+      <!-- Action Buttons -->
+      <div class="space-y-3 max-w-sm mx-auto">
+        <!-- WhatsApp Share Button -->
+        <button onclick="shareWhatsApp()" class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-600/20 transition flex items-center justify-center space-x-2.5">
+          <i class="fa-brands fa-whatsapp text-xl"></i>
           <span>Kongsi Skor ke WhatsApp JKE</span>
         </button>
 
-        <!-- Butang Lihat Papan Skor -->
-        <button onclick="openLeaderboardModal()" class="w-full py-3.5 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm sm:text-base transition flex items-center justify-center space-x-2 border border-slate-300">
-          <i class="fa-solid fa-trophy text-amber-500"></i>
+        <!-- View Leaderboard Button -->
+        <button onclick="openLeaderboardModal()" class="w-full py-3.5 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition flex items-center justify-center space-x-2 border border-slate-200">
+          <i class="fa-solid fa-ranking-star text-amber-500"></i>
           <span>Lihat Papan Skor Jabatan</span>
         </button>
 
-        <!-- Uji Semula -->
-        <button onclick="restartQuiz()" class="w-full py-3 text-sm text-slate-500 hover:text-slate-800 transition font-bold">
-          <i class="fa-solid fa-rotate-left mr-1"></i> Uji Sekali Lagi
+        <!-- Retry -->
+        <button onclick="restartQuiz()" class="w-full py-2 text-xs text-slate-500 hover:text-slate-800 transition font-semibold">
+          <i class="fa-solid fa-rotate-left mr-1"></i> Cuba Sekali Lagi
         </button>
       </div>
 
@@ -271,90 +294,83 @@
 
   </main>
 
-  <!-- MODAL PAPAN SKOR JABATAN (Terang, Kemas & Senang Dibaca) -->
+  <!-- LEADERBOARD MODAL -->
   <div id="leaderboardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-md p-6 sm:p-7 shadow-2xl relative">
-      <button onclick="closeLeaderboardModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition p-2">
+    <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-md p-6 shadow-2xl relative">
+      
+      <button onclick="closeLeaderboardModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
 
-      <div class="flex items-center space-x-3.5 mb-5">
-        <div class="w-12 h-12 bg-amber-50 text-amber-600 border border-amber-200 rounded-2xl flex items-center justify-center">
-          <i class="fa-solid fa-trophy text-2xl"></i>
+      <div class="flex items-center space-x-3 mb-5">
+        <div class="p-3 bg-amber-100 text-amber-600 rounded-2xl">
+          <i class="fa-solid fa-ranking-star text-xl"></i>
         </div>
         <div>
           <h3 class="text-lg font-black text-slate-900">Papan Skor JKE</h3>
-          <p class="text-xs text-slate-500 font-medium">Kedudukan Warga Jabatan Kejuruteraan Elektrik</p>
+          <p class="text-xs font-semibold text-slate-500">Jabatan Kejuruteraan Elektrik</p>
         </div>
       </div>
 
-      <!-- Senarai Skor -->
+      <!-- Leaderboard Items List -->
       <div id="leaderboardList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
-        <!-- Kandungan dinamik -->
+        <!-- Dynamically populated -->
       </div>
 
-      <div class="mt-5 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500 font-medium">
-        <span>*Skor dikira daripada ketepatan & masa</span>
-        <button onclick="showResetConfirm()" class="text-red-600 hover:text-red-700 font-bold">Set Semula</button>
-      </div>
-
-      <!-- Kotak Pengesahan Reset (Pengganti dialog asli) -->
-      <div id="resetConfirmBox" class="hidden mt-3 p-3.5 bg-red-50 border border-red-200 rounded-2xl text-xs text-center">
-        <p class="text-red-900 mb-2.5 font-bold">Set semula papan skor ke senarai asal?</p>
-        <div class="flex justify-center space-x-2">
-          <button onclick="confirmResetLeaderboard()" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl">Ya, Reset</button>
-          <button onclick="hideResetConfirm()" class="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl">Batal</button>
-        </div>
+      <div class="mt-5 pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
+        <span>*Mata dikira mengikut ketepatan & masa</span>
+        <button onclick="resetLeaderboard()" class="text-red-500 hover:underline">Set Semula Data</button>
       </div>
     </div>
   </div>
 
-  <!-- Footer Ringkas & Profesional -->
-  <footer class="py-4 border-t border-slate-200 bg-white/70 text-center text-xs text-slate-500 font-medium">
+  <!-- FOOTER -->
+  <footer class="py-4 border-t border-slate-200 bg-white text-center text-xs text-slate-500 font-medium">
     Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE) Politeknik Kuching Sarawak
   </footer>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     /* ==========================================================
-       DATA SOALAN (Berdasarkan Hebahan Siri 1, 2, 3/2026)
+       1. SOALAN KUIZ (Berasaskan 3 Siri Poster Hebahan LEAN JKE)
        ========================================================== */
     const quizData = [
       {
-        source: "Hebahan Siri 1/2026",
-        question: "Menurut konsep teras Pengurusan LEAN di JKE, penambahbaikan berterusan (continuous improvement) menumpukan kepada '3P' iaitu:",
+        source: "Hebahan Lean Siri 1/2026",
+        question: "Menurut konsep teras Pengurusan LEAN di JKE, penambahbaikan berterusan (continuous improvement) menumpukan terutamanya kepada '3P' iaitu:",
         options: [
           { text: "Produk, Perkhidmatan atau Proses", isCorrect: true },
           { text: "Pekerja, Peralatan atau Polisi", isCorrect: false },
           { text: "Penyelidikan, Penerbitan atau Projek", isCorrect: false },
           { text: "Prestasi, Pensyarah atau Pelajar", isCorrect: false }
         ],
-        explanation: "Siri 1 mentakrifkan LEAN sebagai pendekatan organisasi yang menyokong penambahbaikan berterusan untuk menambah baik Produk, Perkhidmatan atau Proses (3P)."
+        explanation: "Siri 1 mentakrifkan Pengurusan Lean sebagai pendekatan organisasi yang menyokong penambahbaikan berterusan untuk Produk, Perkhidmatan atau Proses (3P)."
       },
       {
-        source: "Hebahan Siri 2/2026",
-        question: "Dalam 3 Elemen Pelaksanaan LEAN, elemen manakah yang memastikan urutan tindakan dibuat pada 'keadaan yang betul, cara yang betul dan masa yang betul'?",
+        source: "Hebahan Lean Siri 2/2026",
+        question: "Di dalam 3 Elemen Pelaksanaan LEAN, elemen manakah yang memastikan tindakan dibuat pada 'keadaan, cara dan masa yang betul' untuk mencipta nilai tambah?",
         options: [
           { text: "Proses (Process)", isCorrect: true },
           { text: "Tujuan (Purpose)", isCorrect: false },
           { text: "Manusia (People)", isCorrect: false },
           { text: "Inovasi (Innovation)", isCorrect: false }
         ],
-        explanation: "Elemen Proses (Process) adalah urutan tindakan yang perlu dijalankan pada keadaan yang betul, cara yang betul dan masa yang betul demi mencipta nilai tambah."
+        explanation: "Elemen Proses (Process) merujuk kepada urutan tindakan yang dijalankan pada keadaan yang betul, cara yang betul dan masa yang betul demi nilai tambah."
       },
       {
-        source: "Hebahan Siri 2/2026",
-        question: "Apakah MATLAMAT AKHIR pelaksanaan LEAN di jabatan kita seperti yang ditegaskan dalam poster hebahan?",
+        source: "Hebahan Lean Siri 2/2026",
+        question: "Apakah matlamat akhir pelaksanaan LEAN di jabatan kita seperti yang ditegaskan dalam poster hebahan?",
         options: [
           { text: "EFISIEN (Mengoptimumkan Masa, Tenaga, Sumber Manusia & Kewangan)", isCorrect: true },
-          { text: "PENJIMATAN (Memotong peruntukan bajet aktiviti jabatan)", isCorrect: false },
-          { text: "AUTOMATION (Menggantikan tugas pensyarah dengan robot)", isCorrect: false },
-          { text: "DOKUMENTASI (Menghasilkan timbunan fail rekod audit)", isCorrect: false }
+          { text: "PENJIMATAN (Memotong 100% peruntukan bajet jabatan)", isCorrect: false },
+          { text: "AUTOMATION (Menggantikan tenaga pensyarah dengan robot)", isCorrect: false },
+          { text: "DOKUMENTASI (Menghasilkan fail audit yang tebal)", isCorrect: false }
         ],
-        explanation: "Matlamat akhir LEAN adalah EFISIEN melalui pengoptimuman empat sumber: Masa, Tenaga, Sumber Manusia, dan Kewangan."
+        explanation: "Matlamat akhir LEAN adalah EFISIEN melalui pengoptimuman sumber: Masa, Tenaga, Sumber Manusia, dan Kewangan."
       },
       {
-        source: "Hebahan Siri 3/2026",
-        question: "Berdasarkan 8 pembaziran LEAN (TIM WOODS), tindakan staf mencetak borang dan menyemak berkali-kali secara manual sedangkan sistem atas talian sudah tersedia tergolong dalam:",
+        source: "Hebahan Lean Siri 3/2026",
+        question: "Bagi 8 jenis pembaziran LEAN (TIM WOODS), situasi staf terpaksa mencetak dan menyemak borang fizikal berkali-kali secara manual sedangkan sistem atas talian sudah ada merujuk kepada pembaziran:",
         options: [
           { text: "Lebihan Proses (Overprocessing)", isCorrect: true },
           { text: "Pengangkutan (Transportation)", isCorrect: false },
@@ -364,7 +380,7 @@
         explanation: "Lebihan Proses (Overprocessing) merujuk kepada melakukan langkah kerja tambahan yang lewah dan tidak memberi nilai tambah."
       },
       {
-        source: "Hebahan Siri 3/2026",
+        source: "Hebahan Lean Siri 3/2026",
         question: "Sekiranya staf yang berkemahiran tinggi dalam kerja membaik pulih peralatan elektrik hanya ditugaskan membuat kerja pemfailan kertas rutin setiap hari, pembaziran ini dipanggil:",
         options: [
           { text: "Bakat / Kemahiran (Skills)", isCorrect: true },
@@ -372,10 +388,10 @@
           { text: "Menunggu (Waiting)", isCorrect: false },
           { text: "Lebihan Pengeluaran (Overproduction)", isCorrect: false }
         ],
-        explanation: "Pembaziran Bakat/Kemahiran (Skills) merujuk kepada situasi di mana kepakaran teknikal, kemahiran amali, atau bakat staf tidak dimanfaatkan secara optimum oleh organisasi."
+        explanation: "Pembaziran Bakat/Kemahiran (Skills) ialah kegagalan organisasi mengguna pakai kepakaran dan kemahiran staf sepenuhnya."
       },
       {
-        source: "Hebahan Siri 2/2026",
+        source: "Hebahan Lean Siri 2/2026",
         question: "Berikut merupakan antara 7 Kluster Pelaksanaan LEAN JKE, KECUALI:",
         options: [
           { text: "Pengiklanan & Pemasaran Komersial Luar", isCorrect: true },
@@ -383,23 +399,23 @@
           { text: "Pengurusan Pelajar & Sistem Maklumat", isCorrect: false },
           { text: "Kewangan & Pengurusan Sumber Manusia", isCorrect: false }
         ],
-        explanation: "7 Kluster rasmi pelaksanaan LEAN merangkumi: Tadbir Urus, Inovasi, Pengurusan Pelajar, Sistem Maklumat, Kewangan & Perolehan, serta Pengurusan Sumber Manusia."
+        explanation: "7 Kluster rasmi pelaksanaan LEAN merangkumi Tadbir Urus, Inovasi, Pengurusan Pelajar, Sistem Maklumat, Kewangan & Perolehan, serta Pengurusan Sumber Manusia."
       },
       {
-        source: "Hebahan Siri 3/2026",
-        question: "Di dalam akronim 'TIM WOODS' (8 Pembaziran LEAN), apakah maksud huruf 'W' dan 'D'?",
+        source: "Hebahan Lean Siri 3/2026",
+        question: "Dalam akronim 'TIM WOODS' yang dipaparkan dalam Hebahan Siri 3, apakah maksud huruf 'W' dan 'D'?",
         options: [
-          { text: "Waiting (Menunggu) & Defect (Kecacatan / Kesilapan)", isCorrect: true },
+          { text: "Waiting (Menunggu) & Defect (Kecacatan)", isCorrect: true },
           { text: "Working (Bekerja) & Delivery (Penghantaran)", isCorrect: false },
           { text: "Wasting (Membazir) & Digital (Pendigitalan)", isCorrect: false },
-          { text: "Workflow (Aliran) & Duty (Kewajipan)", isCorrect: false }
+          { text: "Workflow (Aliran Kerja) & Duty (Tugas)", isCorrect: false }
         ],
-        explanation: "W = Waiting (Masa menunggu antara rantaian proses) dan D = Defect (Kesilapan yang memerlukan kerja semula)."
+        explanation: "W = Waiting (Masa menunggu antara rantaian proses), D = Defect (Kesilapan yang memerlukan kerja semula)."
       }
     ];
 
     /* ==========================================================
-       KEADAAN APLIKASI & PEMBOLEH UBAH
+       2. STATE & VARIABLE MANAGEMENT
        ========================================================== */
     let currentQuestionIdx = 0;
     let score = 0;
@@ -414,144 +430,108 @@
     let currentPlayer = "Staf JKE";
 
     /* ==========================================================
-       SINTESIS AUDIO DEBARAN MASA (Web Audio API)
-       Kesan degupan jantung & detikan masa yang mendebarkan
+       3. SYNTHESIZED AUDIO (Web Audio API - Ticking & Heartbeat)
        ========================================================== */
     let audioCtx = null;
+    
     function initAudio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
     }
 
-    // Bunyi degupan jantung berdebar (Heartbeat Thump - Lub Dub)
-    function playHeartbeat(isUrgent = false) {
-      if (!soundEnabled) return;
-      try {
-        initAudio();
-        const now = audioCtx.currentTime;
-
-        // Dentuman pertama (Lub)
-        const osc1 = audioCtx.createOscillator();
-        const gain1 = audioCtx.createGain();
-        osc1.type = 'sine';
-        const startFreq = isUrgent ? 90 : 70;
-        osc1.frequency.setValueAtTime(startFreq, now);
-        osc1.frequency.exponentialRampToValueAtTime(32, now + 0.12);
-        
-        gain1.gain.setValueAtTime(isUrgent ? 0.55 : 0.35, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
-        
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.14);
-
-        // Dentuman kedua (Dub, selang 0.14 saat)
-        const osc2 = audioCtx.createOscillator();
-        const gain2 = audioCtx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(startFreq - 12, now + 0.14);
-        osc2.frequency.exponentialRampToValueAtTime(28, now + 0.28);
-        
-        gain2.gain.setValueAtTime(isUrgent ? 0.45 : 0.25, now + 0.14);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        
-        osc2.connect(gain2);
-        gain2.connect(audioCtx.destination);
-        osc2.start(now + 0.14);
-        osc2.stop(now + 0.31);
-
-        // Detikan jam tajam
-        const clickOsc = audioCtx.createOscillator();
-        const clickGain = audioCtx.createGain();
-        clickOsc.type = 'triangle';
-        clickOsc.frequency.setValueAtTime(isUrgent ? 1350 : 850, now);
-        clickGain.gain.setValueAtTime(isUrgent ? 0.12 : 0.05, now);
-        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-        
-        clickOsc.connect(clickGain);
-        clickGain.connect(audioCtx.destination);
-        clickOsc.start(now);
-        clickOsc.stop(now + 0.05);
-
-      } catch (e) {
-        console.warn("Audio Context Warning:", e);
-      }
-    }
-
-    // Bunyi maklum balas jawapan (Tepat / Tersilap / Tamat Masa)
-    function playEffect(type) {
+    function playTone(type) {
       if (!soundEnabled) return;
       try {
         initAudio();
         const now = audioCtx.currentTime;
 
         if (type === 'correct') {
-          // Melodi kejayaan manis
-          const freqs = [523.25, 659.25, 783.99, 1046.50];
-          freqs.forEach((f, idx) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(f, now + idx * 0.06);
-            gain.gain.setValueAtTime(0.2, now + idx * 0.06);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45 + idx * 0.06);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(now + idx * 0.06);
-            osc.stop(now + 0.5 + idx * 0.06);
-          });
-        } else if (type === 'wrong') {
-          // Nada tersilap
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(160, now);
-          osc.frequency.linearRampToValueAtTime(90, now + 0.3);
-          gain.gain.setValueAtTime(0.25, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start(now);
-          osc.stop(now + 0.33);
-        } else if (type === 'timeout') {
-          // Bunyi tamat tempoh
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(110, now);
-          osc.frequency.exponentialRampToValueAtTime(40, now + 0.5);
-          gain.gain.setValueAtTime(0.4, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+
+        } else if (type === 'wrong') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
           osc.connect(gain);
           gain.connect(audioCtx.destination);
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now); // A3
+          osc.frequency.setValueAtTime(164.81, now + 0.12); // E3
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
           osc.start(now);
-          osc.stop(now + 0.52);
+          osc.stop(now + 0.3);
+
+        } else if (type === 'tick') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+
+        } else if (type === 'heartbeat') {
+          // Sub-bass heartbeat 'Lub-Dub' sound
+          const osc1 = audioCtx.createOscillator();
+          const gain1 = audioCtx.createGain();
+          osc1.connect(gain1);
+          gain1.connect(audioCtx.destination);
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(80, now);
+          osc1.frequency.exponentialRampToValueAtTime(30, now + 0.08);
+          gain1.gain.setValueAtTime(0.4, now);
+          gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc1.start(now);
+          osc1.stop(now + 0.08);
+
+          // Second beat 'Dub'
+          setTimeout(() => {
+            if (!soundEnabled || isAnswered) return;
+            const now2 = audioCtx.currentTime;
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(70, now2);
+            osc2.frequency.exponentialRampToValueAtTime(25, now2 + 0.12);
+            gain2.gain.setValueAtTime(0.3, now2);
+            gain2.gain.exponentialRampToValueAtTime(0.01, now2 + 0.12);
+            osc2.start(now2);
+            osc2.stop(now2 + 0.12);
+          }, 120);
         }
       } catch (e) {
-        console.warn("Audio Effect Warning:", e);
+        console.warn("Audio error:", e);
       }
     }
 
     function toggleSound() {
       soundEnabled = !soundEnabled;
       const icon = document.getElementById('soundIcon');
-      const label = document.getElementById('soundLabel');
       if (soundEnabled) {
-        icon.className = "fa-solid fa-volume-high text-red-600";
-        label.innerText = "Kesan Audio";
+        icon.className = "fa-solid fa-volume-high text-cyan-600";
       } else {
-        icon.className = "fa-solid fa-volume-xmark text-slate-400";
-        label.innerText = "Bisu";
+        icon.className = "fa-solid fa-volume-xmark text-red-500";
       }
     }
 
     /* ==========================================================
-       LOGIK & KAWALAN PERJALANAN KUIZ
+       4. QUIZ LOGIC & FLOW
        ========================================================== */
     function startQuiz() {
       const nameInput = document.getElementById('playerName');
@@ -566,7 +546,7 @@
       nameErr.classList.add('hidden');
       currentPlayer = val;
 
-      // Reset markah dan penunjuk
+      // Reset values
       currentQuestionIdx = 0;
       score = 0;
       streak = 0;
@@ -588,39 +568,37 @@
 
       const q = quizData[currentQuestionIdx];
 
-      // Update Maklumat UI
+      // Update UI Header
       document.getElementById('currentQuestionNum').innerText = currentQuestionIdx + 1;
       document.getElementById('totalQuestionsNum').innerText = quizData.length;
-      document.getElementById('currentScore').innerText = score.toLocaleString();
+      document.getElementById('currentScore').innerText = score;
       document.getElementById('sourceTag').innerText = q.source;
       document.getElementById('questionText').innerText = q.question;
       document.getElementById('timeLeft').innerText = timeLeft;
       document.getElementById('nextBtn').classList.add('hidden');
       document.getElementById('explanationBox').classList.add('hidden');
 
+      // Reset Timer Container Style
       const timerContainer = document.getElementById('timerContainer');
       const timerIcon = document.getElementById('timerIcon');
-      const timeLeftText = document.getElementById('timeLeft');
+      timerContainer.className = "flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 transition-colors";
+      timerIcon.className = "fa-solid fa-stopwatch text-slate-600 text-sm";
+      document.getElementById('timeLeft').className = "text-base font-black text-slate-800 w-6 text-center";
 
-      // Reset Gaya Pemasa
-      timerContainer.className = "flex items-center space-x-2.5 bg-slate-100 px-4 py-2 rounded-2xl border border-slate-300 transition-all";
-      timerIcon.className = "fa-solid fa-heart-pulse text-red-600 text-base heartbeat-icon";
-      timeLeftText.className = "text-2xl font-black text-red-600 tracking-wider w-8 text-center";
-
-      // Badge Kombo
+      // Streak UI Badge
       const streakBadge = document.getElementById('streakBadge');
       if (streak >= 2) {
         streakBadge.classList.remove('invisible');
-        document.getElementById('streakText').innerText = `${streak}x JAWAPAN BERTURUTAN! (+${streak * 25} Bonus)`;
+        document.getElementById('streakText').innerText = `${streak}x KOMBO BERTURUTAN! (+${streak * 25} Bonus)`;
       } else {
         streakBadge.classList.add('invisible');
       }
 
-      // Bar Perkembangan
+      // Progress bar animation
       const progress = ((currentQuestionIdx) / quizData.length) * 100;
       document.getElementById('progressBar').style.width = `${progress}%`;
 
-      // Papar Pilihan Jawapan (Secara Rawak, Kad Terang & Mudah Dibaca)
+      // Render Options
       const optionsContainer = document.getElementById('optionsContainer');
       optionsContainer.innerHTML = '';
 
@@ -628,38 +606,35 @@
 
       shuffledOptions.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-red-500 transition-all font-semibold text-base text-slate-800 flex items-center justify-between group active:scale-[0.99] shadow-sm";
+        btn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-cyan-500 transition-all font-semibold text-sm sm:text-base text-slate-800 flex items-center justify-between group active:scale-[0.99] shadow-sm";
         btn.innerHTML = `
           <div class="flex items-center space-x-3.5">
-            <span class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 font-black text-sm flex items-center justify-center group-hover:bg-red-50 group-hover:text-red-700 group-hover:border-red-300 transition-colors">
+            <span class="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-extrabold text-xs flex items-center justify-center group-hover:border-cyan-500 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition">
               ${String.fromCharCode(65 + idx)}
             </span>
             <span class="option-label leading-snug">${opt.text}</span>
           </div>
-          <span class="icon-slot opacity-0 text-lg"></span>
+          <span class="icon-slot opacity-0 text-base"></span>
         `;
         btn.onclick = () => selectOption(btn, opt, q);
         optionsContainer.appendChild(btn);
       });
 
-      // Mainkan denyutan permulaan
-      playHeartbeat(false);
-
-      // Pemasa undur dengan audio debaran
+      // Start Ticking Timer
       timer = setInterval(() => {
         timeLeft--;
-        timeLeftText.innerText = timeLeft;
+        document.getElementById('timeLeft').innerText = timeLeft;
 
-        // Keadaan cemas (< 5 saat)
+        // Emergency Heartbeat Audio & Red Flashing UI (Last 5 seconds)
         if (timeLeft <= 5 && timeLeft > 0) {
-          playHeartbeat(true); // Degupan pantas & berdebar
-          timerContainer.className = "flex items-center space-x-2.5 px-4 py-2 rounded-2xl border-2 timer-alert shadow-md";
-          timerIcon.className = "fa-solid fa-triangle-exclamation text-base animate-bounce";
-        } else if (timeLeft > 0) {
-          playHeartbeat(false); // Degupan normal berirama
+          playTone('heartbeat');
+          timerContainer.className = "flex items-center space-x-2 bg-red-50 border-2 border-red-500 px-4 py-2 rounded-full pulse-heart";
+          timerIcon.className = "fa-solid fa-triangle-exclamation text-red-600 text-sm";
+          document.getElementById('timeLeft').className = "text-base font-black text-red-600 w-6 text-center";
+        } else {
+          playTone('tick');
         }
 
-        // Masa Tamat
         if (timeLeft <= 0) {
           clearInterval(timer);
           timeOutAnswer(q);
@@ -681,63 +656,52 @@
       if (selectedOpt.isCorrect) {
         streak++;
         if (streak > maxStreak) maxStreak = streak;
-
-        // Pengiraan markah
-        const timeBonus = timeLeft * 12;
-        const streakBonus = streak >= 2 ? streak * 30 : 0;
+        const timeBonus = timeLeft * 10;
+        const streakBonus = streak >= 2 ? streak * 25 : 0;
         const earned = 100 + timeBonus + streakBonus;
         score += earned;
         correctAnswersCount++;
 
-        playEffect('correct');
+        playTone('correct');
 
-        // Pilihan Betul: Hijau lembut yang mesra mata & tulisan sangat jelas
-        selectedBtn.classList.remove('bg-white', 'hover:bg-slate-50', 'border-slate-200');
-        selectedBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-200');
+        // Style Selected Button as Correct
+        selectedBtn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-950 font-semibold text-sm sm:text-base flex items-center justify-between shadow-sm";
         selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
         selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
 
-        // Kotak Penerangan
-        explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 text-emerald-950 block";
-        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
-        explanationTitle.innerText = `Jawapan Tepat! (+${earned} Markah)`;
-        explanationTitle.className = "font-black text-emerald-800 text-base mb-1";
+        // Explanation Banner
+        explanationBox.className = "mt-4 p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50 text-emerald-900 block";
+        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i>';
+        explanationTitle.innerText = `Tepat Sekali! (+${earned} Mata)`;
         explanationText.innerText = currentQ.explanation;
 
       } else {
-        streak = 0; // Reset streak
-        playEffect('wrong');
+        streak = 0;
+        playTone('wrong');
 
-        // Pilihan Salah: Merah jambu lembut
-        selectedBtn.classList.remove('bg-white', 'border-slate-200');
-        selectedBtn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-950');
-        selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600"></i>';
+        // Style Selected Button as Wrong
+        selectedBtn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-red-50 border-2 border-red-500 text-red-950 font-semibold text-sm sm:text-base flex items-center justify-between shadow-sm";
+        selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-xmark text-red-600"></i>';
         selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
 
-        // Tunjukkan pilihan yang sepatutnya betul
+        // Show Correct Answer
         allOptionButtons.forEach(btn => {
           const textSpan = btn.querySelector('.option-label');
           if (textSpan && currentQ.options.find(o => o.text === textSpan.innerText && o.isCorrect)) {
-            btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950');
+            btn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-400 text-emerald-900 font-semibold text-sm sm:text-base flex items-center justify-between";
             btn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
             btn.querySelector('.icon-slot').classList.remove('opacity-0');
           }
         });
 
-        explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-800 block";
-        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-info text-red-600"></i>';
+        explanationBox.className = "mt-4 p-4 rounded-2xl border-2 border-red-200 bg-red-50 text-red-900 block";
+        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-info text-red-600 text-xl"></i>';
         explanationTitle.innerText = "Kurang Tepat!";
-        explanationTitle.className = "font-black text-red-700 text-base mb-1";
         explanationText.innerText = currentQ.explanation;
       }
 
-      // Kemas kini mata di atas
-      document.getElementById('currentScore').innerText = score.toLocaleString();
-
-      // Kunci semua butang
+      document.getElementById('currentScore').innerText = score;
       allOptionButtons.forEach(b => b.classList.add('cursor-not-allowed', 'pointer-events-none'));
-
-      // Tunjukkan butang seterusnya
       document.getElementById('nextBtn').classList.remove('hidden');
     }
 
@@ -745,13 +709,13 @@
       if (isAnswered) return;
       isAnswered = true;
       streak = 0;
-      playEffect('timeout');
+      playTone('wrong');
 
       const allOptionButtons = document.querySelectorAll('#optionsContainer button');
       allOptionButtons.forEach(btn => {
         const textSpan = btn.querySelector('.option-label');
         if (textSpan && currentQ.options.find(o => o.text === textSpan.innerText && o.isCorrect)) {
-          btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950');
+          btn.className = "w-full text-left p-4 sm:p-4.5 rounded-2xl bg-emerald-50 border-2 border-emerald-400 text-emerald-900 font-semibold text-sm sm:text-base flex items-center justify-between";
           btn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
           btn.querySelector('.icon-slot').classList.remove('opacity-0');
         }
@@ -759,10 +723,9 @@
       });
 
       const explanationBox = document.getElementById('explanationBox');
-      explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-red-200 bg-red-50 text-red-950 block";
-      document.getElementById('explanationIcon').innerHTML = '<i class="fa-solid fa-hourglass-end text-red-600"></i>';
-      document.getElementById('explanationTitle').innerText = "Masa Berdebar Telah Tamat!";
-      document.getElementById('explanationTitle').className = "font-black text-red-700 text-base mb-1";
+      explanationBox.className = "mt-4 p-4 rounded-2xl border-2 border-amber-200 bg-amber-50 text-amber-900 block";
+      document.getElementById('explanationIcon').innerHTML = '<i class="fa-solid fa-hourglass-end text-amber-600 text-xl"></i>';
+      document.getElementById('explanationTitle').innerText = "Masa Telah Tamat!";
       document.getElementById('explanationText').innerText = currentQ.explanation;
 
       document.getElementById('nextBtn').classList.remove('hidden');
@@ -792,17 +755,12 @@
 
       const remarkEl = document.getElementById('resultRemark');
       if (accuracy >= 85) {
-        remarkEl.innerText = "Luar Biasa! Pemahaman LEAN anda sangat cemerlang dan bersedia menjadi pemacu jabatan!";
+        remarkEl.innerText = "Hebat! Anda sememangnya Duta LEAN JKE yang berpengetahuan tinggi!";
         if (typeof confetti === 'function') {
-          confetti({
-            particleCount: 120,
-            spread: 85,
-            origin: { y: 0.6 },
-            colors: ['#dc2626', '#b91c1c', '#f59e0b', '#10b981']
-          });
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         }
       } else if (accuracy >= 60) {
-        remarkEl.innerText = "Tahniah! Pemahaman LEAN anda amat baik dan sedia diterapkan dalam kerja seharian.";
+        remarkEl.innerText = "Bagus! Pemahaman asas LEAN anda kukuh untuk memacu efisiensi jabatan.";
       } else {
         remarkEl.innerText = "Teruskan membaca 3 Siri E-Poster Hebahan LEAN untuk memperkukuh kefahaman.";
       }
@@ -816,20 +774,20 @@
     }
 
     /* ==========================================================
-       LEADERBOARD & LOCAL STORAGE
+       5. LOCAL STORAGE & LEADERBOARD
        ========================================================== */
     const DEFAULT_LEADERBOARD = [
-      { name: "Penyelaras LEAN JKE", score: 1480, accuracy: 100, date: "Hari ini" },
-      { name: "Ketua Jabatan JKE", score: 1420, accuracy: 100, date: "Hari ini" },
-      { name: "Ketua Program DEE", score: 1240, accuracy: 86, date: "Semalam" },
-      { name: "Ketua Program DEP", score: 1190, accuracy: 86, date: "Semalam" },
-      { name: "Pegawai Kualiti JKE", score: 1050, accuracy: 71, date: "2 hari lalu" }
+      { name: "Penyelaras LEAN JKE", score: 1420, accuracy: 100, date: "Hari ini" },
+      { name: "Ketua Jabatan JKE", score: 1380, accuracy: 100, date: "Hari ini" },
+      { name: "Ketua Program DEE", score: 1190, accuracy: 85, date: "Semalam" },
+      { name: "Ketua Program DEP", score: 1120, accuracy: 85, date: "Semalam" },
+      { name: "Pegawai Kualiti JKE", score: 980, accuracy: 71, date: "2 hari lalu" }
     ];
 
     function getLeaderboard() {
-      const stored = localStorage.getItem('jke_lean_friendly_leaderboard');
+      const stored = localStorage.getItem('jke_lean_leaderboard');
       if (!stored) {
-        localStorage.setItem('jke_lean_friendly_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
+        localStorage.setItem('jke_lean_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
         return DEFAULT_LEADERBOARD;
       }
       try {
@@ -849,44 +807,43 @@
       });
       list.sort((a, b) => b.score - a.score);
       list = list.slice(0, 10);
-      localStorage.setItem('jke_lean_friendly_leaderboard', JSON.stringify(list));
+      localStorage.setItem('jke_lean_leaderboard', JSON.stringify(list));
     }
 
     function openLeaderboardModal() {
       const list = getLeaderboard();
       const container = document.getElementById('leaderboardList');
       container.innerHTML = '';
-      hideResetConfirm();
 
       list.forEach((item, index) => {
-        let badgeStyle = "bg-slate-100 text-slate-700 border-slate-300";
-        let rankLabel = `#${index + 1}`;
+        let badgeColor = "bg-slate-100 text-slate-700";
+        let rankIcon = `#${index + 1}`;
         if (index === 0) {
-          badgeStyle = "bg-amber-100 text-amber-900 font-extrabold border-amber-300";
-          rankLabel = '🥇';
+          badgeColor = "bg-amber-400 text-slate-950 font-black";
+          rankIcon = '🥇';
         } else if (index === 1) {
-          badgeStyle = "bg-slate-200 text-slate-800 font-bold border-slate-400";
-          rankLabel = '🥈';
+          badgeColor = "bg-slate-200 text-slate-800 font-bold";
+          rankIcon = '🥈';
         } else if (index === 2) {
-          badgeStyle = "bg-orange-100 text-orange-900 font-bold border-orange-300";
-          rankLabel = '🥉';
+          badgeColor = "bg-amber-100 text-amber-800 font-bold";
+          rankIcon = '🥉';
         }
 
         const row = document.createElement('div');
-        row.className = "flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200";
+        row.className = "flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200/80";
         row.innerHTML = `
-          <div class="flex items-center space-x-3.5">
-            <span class="w-9 h-9 rounded-xl flex items-center justify-center text-sm border ${badgeStyle}">
-              ${rankLabel}
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs ${badgeColor}">
+              ${rankIcon}
             </span>
             <div>
-              <p class="text-sm font-bold text-slate-900 leading-tight mb-0.5">${escapeHtml(item.name)}</p>
-              <p class="text-xs text-slate-500 font-medium">${item.date} • ${item.accuracy}% Tepat</p>
+              <p class="text-xs sm:text-sm font-bold text-slate-900 leading-none mb-1">${escapeHtml(item.name)}</p>
+              <p class="text-[10px] text-slate-500 font-medium">${item.date} • ${item.accuracy}% Tepat</p>
             </div>
           </div>
           <div class="text-right">
-            <span class="text-base font-black text-red-600">${item.score.toLocaleString()}</span>
-            <span class="text-[10px] text-slate-500 block uppercase font-bold">markah</span>
+            <span class="text-sm font-black text-cyan-600">${item.score.toLocaleString()}</span>
+            <span class="text-[10px] text-slate-400 block font-semibold">mata</span>
           </div>
         `;
         container.appendChild(row);
@@ -897,21 +854,13 @@
 
     function closeLeaderboardModal() {
       document.getElementById('leaderboardModal').classList.add('hidden');
-      hideResetConfirm();
     }
 
-    function showResetConfirm() {
-      document.getElementById('resetConfirmBox').classList.remove('hidden');
-    }
-
-    function hideResetConfirm() {
-      document.getElementById('resetConfirmBox').classList.add('hidden');
-    }
-
-    function confirmResetLeaderboard() {
-      localStorage.removeItem('jke_lean_friendly_leaderboard');
-      hideResetConfirm();
-      openLeaderboardModal();
+    function resetLeaderboard() {
+      if (confirm("Adakah anda pasti mahu set semula papan skor kepada lalai?")) {
+        localStorage.removeItem('jke_lean_leaderboard');
+        openLeaderboardModal();
+      }
     }
 
     function escapeHtml(text) {
@@ -921,21 +870,21 @@
     }
 
     /* ==========================================================
-       WHATSAPP SHARING
+       6. WHATSAPP DIRECT SHARE
        ========================================================== */
     function shareWhatsApp() {
-      const text = `⚡ *CABARAN KILAT KUIZ LEAN JKE* ⚡%0A%0A` +
-        `Saya baru selesai mencabar minda dalam Kuiz Pengurusan LEAN JKE!%0A` +
-        `👤 *Peserta:* ${encodeURIComponent(currentPlayer)}%0A` +
-        `🏆 *Markah:* ${score.toLocaleString()} Mata%0A` +
-        `🎯 *Ketepatan:* ${correctAnswersCount}/${quizData.length} Soalan Betul%0A%0A` +
-        `Bolehkah anda atasi rekod saya di Papan Skor JKE? Jom sahut cabaran sekarang! 🚀`;
+      const text = `⚡ *CABARAN MINI KUIZ LEAN JKE* ⚡%0A%0A` +
+        `Saya baru saja menamatkan Cabaran Kuiz Pengurusan LEAN JKE!%0A` +
+        `👤 *Nama:* ${encodeURIComponent(currentPlayer)}%0A` +
+        `🏆 *Skor:* ${score} Mata%0A` +
+        `🎯 *Ketepatan:* ${correctAnswersCount}/${quizData.length} Soalan%0A%0A` +
+        `Adakah anda cukup tangkas menguasai konsep 3P dan 8 Pembaziran (TIM WOODS)? Sahut cabaran dan atasi rekod saya di Scoreboard JKE sekarang!`;
       
       const whatsappUrl = `https://api.whatsapp.com/send?text=${text}`;
       window.open(whatsappUrl, '_blank');
     }
 
-    // Sokongan kekunci Enter pada nama
+    // Enter Key Handler for Player Name
     document.getElementById('playerName').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         startQuiz();
