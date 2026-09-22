@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cabaran Mini Kuiz LEAN - JKE (Mesra Pengguna)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #fee2e2 100%);
+      min-height: 100vh;
+      color: #0f172a;
+    }
+
+    /* Animasi denyutan waktu cemas */
+    .timer-alert {
+      animation: alertPulse 0.6s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      from { transform: scale(1); background-color: #fee2e2; border-color: #ef4444; }
+      to { transform: scale(1.05); background-color: #dc2626; border-color: #991b1b; color: #ffffff; }
+    }
+
+    .heartbeat-icon {
+      animation: heartPulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.18); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.12); }
+      70% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="flex flex-col justify-between selection:bg-red-600 selection:text-white">
+
+  <!-- Header / Nav Utama (Terang, Berkontras Tinggi & Profesional) -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-red-600 flex items-center justify-center text-white shadow-md shadow-red-500/20">
+          <i class="fa-solid fa-fire text-amber-300 text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-[11px] tracking-wider font-extrabold uppercase text-red-700">JABATAN KEJURUTERAAN ELEKTRIK</span>
+            <span class="text-[10px] bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full font-bold uppercase">Siri 1 - 3</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">Mini Kuiz Celik LEAN JKE</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button id="soundToggleBtn" onclick="toggleSound()" title="Kawalan Audio" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-sm">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-red-600"></i>
+          <span id="soundLabel" class="hidden sm:inline">Kesan Audio</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-6 sm:py-8 w-full flex-grow flex items-center justify-center">
+
+    <!-- 1. START SCREEN (Reka Bentuk Terang, Tulisan Jelas & Butang Besar) -->
+    <div id="startScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden text-center">
+      
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-bold tracking-wide uppercase mb-5">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping mr-1"></span>
+        Uji Kefahaman & Ketangkasan Minda
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3 leading-tight">
+        Cabaran Kilat Pengurusan LEAN
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto mb-8 font-medium leading-relaxed">
+        Buktikan kepekaan anda terhadap <strong>Konsep 3P, 3 Elemen Utama, Matlamat EFISIEN</strong> dan <strong>8 Pembaziran (TIM WOODS)</strong> berdasarkan hebahan e-poster jabatan.
+      </p>
+
+      <!-- Input Nama Peserta (Kontras Tinggi untuk Staf) -->
+      <div class="max-w-md mx-auto mb-7 text-left">
+        <label for="playerName" class="block text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">
+          Nama Penuh / Nama Panggilan Staf
+        </label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+            <i class="fa-regular fa-user text-base"></i>
+          </span>
+          <input type="text" id="playerName" maxlength="26" placeholder="Cth: Ts. Azman / Pn. Faridah" 
+                 class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-slate-50 border-2 border-slate-300 focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-100 text-slate-900 placeholder-slate-400 outline-none text-base font-semibold transition shadow-sm">
+        </div>
+        <p id="nameError" class="text-xs sm:text-sm text-red-600 mt-2 hidden font-bold flex items-center space-x-1.5">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Sila masukkan nama anda terlebih dahulu sebelum mula!</span>
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto">
+        <button onclick="startQuiz()" class="w-full py-4 px-6 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-base uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transition-all transform active:scale-98 flex items-center justify-center space-x-2.5">
+          <span>Mulakan Kuiz</span>
+          <i class="fa-solid fa-play text-sm"></i>
+        </button>
+        <button onclick="openLeaderboardModal()" class="w-full sm:w-auto py-4 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center space-x-2 border border-slate-300 shadow-sm">
+          <i class="fa-solid fa-trophy text-amber-500 text-lg"></i>
+          <span>Papan Skor</span>
+        </button>
+      </div>
+
+      <!-- Kad Penerangan Ringkas -->
+      <div class="grid grid-cols-3 gap-3.5 mt-9 pt-7 border-t border-slate-200 text-center">
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-stopwatch"></i></div>
+          <div class="text-xs text-slate-500 font-bold uppercase">Masa Menjawab</div>
+          <div class="text-base font-extrabold text-slate-800">15 Saat</div>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-heart-pulse heartbeat-icon"></i></div>
+          <div class="text-xs text-slate-500 font-bold uppercase">Kesan Audio</div>
+          <div class="text-base font-extrabold text-slate-800">Debaran Masa</div>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-red-600 text-lg mb-1"><i class="fa-solid fa-bolt"></i></div>
+          <div class="text-xs text-slate-500 font-bold uppercase">Bonus Kombo</div>
+          <div class="text-base font-extrabold text-slate-800">Mata Pantas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. QUIZ SCREEN (Kontras Tinggi, Saiz Tulisan Selesa Dibaca) -->
+    <div id="quizScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-5 sm:p-9 shadow-xl hidden">
+      
+      <!-- Bar Maklumat Atas: Soalan, Pemasa & Mata -->
+      <div class="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-200">
+        <!-- Bilangan Soalan -->
+        <div>
+          <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Soalan</span>
+          <div class="text-lg sm:text-xl font-black text-slate-900">
+            <span id="currentQuestionNum" class="text-red-600">1</span> / <span id="totalQuestionsNum">7</span>
+          </div>
+        </div>
+
+        <!-- Pemasa Detik Debaran (Besar & Jelas) -->
+        <div id="timerContainer" class="flex items-center space-x-2.5 bg-slate-100 px-4 py-2 rounded-2xl border border-slate-300 transition-all">
+          <i id="timerIcon" class="fa-solid fa-heart-pulse text-red-600 text-base heartbeat-icon"></i>
+          <span id="timeLeft" class="text-2xl font-black text-red-600 tracking-wider w-8 text-center">15</span>
+          <span class="text-xs font-bold text-slate-500 hidden sm:inline">saat</span>
+        </div>
+
+        <!-- Markah Terkumpul -->
+        <div class="text-right">
+          <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Markah Anda</span>
+          <div class="text-lg sm:text-xl font-black text-slate-900" id="currentScore">0</div>
+        </div>
+      </div>
+
+      <!-- Label Sumber Siri & Indikator Kombo -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <span id="sourceTag" class="text-xs font-extrabold px-3 py-1.5 rounded-xl bg-red-50 text-red-700 border border-red-200">
+          Hebahan Lean Siri 1/2026
+        </span>
+        <div id="streakBadge" class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-900 border border-amber-300 uppercase tracking-wider invisible">
+          <i class="fa-solid fa-fire text-amber-600"></i>
+          <span id="streakText">2x JAWAPAN BERTURUTAN!</span>
+        </div>
+      </div>
+
+      <!-- Bar Kemajuan Garisan Merah -->
+      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mb-6">
+        <div id="progressBar" class="bg-red-600 h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <!-- Teks Soalan (Saiz Besar, Hitam Pekat & Sangat Jelas) -->
+      <div class="mb-6">
+        <h3 id="questionText" class="text-lg sm:text-2xl font-bold text-slate-900 leading-relaxed tracking-tight">
+          Soalan akan dimuatkan di sini...
+        </h3>
+      </div>
+
+      <!-- Senarai Pilihan Jawapan (Kad Putih Berbingkai Jelas, Mudah Ditekan) -->
+      <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
+        <!-- Pilihan dimuatkan secara dinamik -->
+      </div>
+
+      <!-- Kotak Ulasan / Maklum Balas Jawapan -->
+      <div id="explanationBox" class="hidden mt-5 p-4 sm:p-5 rounded-2xl border transition-all text-sm leading-relaxed">
+        <div class="flex items-start space-x-3.5">
+          <span id="explanationIcon" class="text-2xl mt-0.5"></span>
+          <div>
+            <h4 id="explanationTitle" class="font-extrabold text-base mb-1"></h4>
+            <p id="explanationText" class="text-slate-700 text-sm sm:text-base leading-normal font-medium"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Butang Seterusnya (Besar & Kontras) -->
+      <div class="mt-6 flex justify-end">
+        <button id="nextBtn" onclick="nextQuestion()" class="hidden px-7 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-md transition items-center space-x-2">
+          <span>Soalan Seterusnya</span>
+          <i class="fa-solid fa-arrow-right text-sm"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 3. RESULT SCREEN (Paparan Tahniah, Skor & Perkongsian WhatsApp) -->
+    <div id="resultScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center hidden">
+      
+      <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-red-600 text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-red-500/30">
+        <i class="fa-solid fa-award"></i>
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
+        Tahniah, <span id="finalPlayerName" class="text-red-600"></span>!
+      </h2>
+      <p id="resultRemark" class="text-sm sm:text-base text-slate-600 mb-6 font-medium">
+        Anda telah melengkapkan Kuiz Pengurusan LEAN JKE.
+      </p>
+
+      <!-- Kad Ringkasan Skor -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-7 max-w-md mx-auto grid grid-cols-2 gap-4 text-center">
+        <div>
+          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">Jumlah Markah</span>
+          <span id="finalScore" class="text-3xl sm:text-4xl font-black text-slate-900">0</span>
+        </div>
+        <div>
+          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">Ketepatan</span>
+          <span id="finalAccuracy" class="text-3xl sm:text-4xl font-black text-red-600">0%</span>
+        </div>
+        <div class="border-t border-slate-200 pt-3.5">
+          <span class="text-xs text-slate-500 font-bold block">Jawapan Betul</span>
+          <span id="correctCount" class="text-base font-extrabold text-slate-800">0</span>
+        </div>
+        <div class="border-t border-slate-200 pt-3.5">
+          <span class="text-xs text-slate-500 font-bold block">Kombo Maksimum</span>
+          <span id="maxComboText" class="text-base font-extrabold text-amber-600">0x</span>
+        </div>
+      </div>
+
+      <!-- Butang Tindakan -->
+      <div class="space-y-3.5 max-w-sm mx-auto">
+        <!-- Butang Kongsi ke WhatsApp JKE -->
+        <button onclick="shareWhatsApp()" class="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base shadow-lg shadow-emerald-600/25 transition flex items-center justify-center space-x-2.5">
+          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          <span>Kongsi Skor ke WhatsApp JKE</span>
+        </button>
+
+        <!-- Butang Lihat Papan Skor -->
+        <button onclick="openLeaderboardModal()" class="w-full py-3.5 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm sm:text-base transition flex items-center justify-center space-x-2 border border-slate-300">
+          <i class="fa-solid fa-trophy text-amber-500"></i>
+          <span>Lihat Papan Skor Jabatan</span>
+        </button>
+
+        <!-- Uji Semula -->
+        <button onclick="restartQuiz()" class="w-full py-3 text-sm text-slate-500 hover:text-slate-800 transition font-bold">
+          <i class="fa-solid fa-rotate-left mr-1"></i> Uji Sekali Lagi
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL PAPAN SKOR JABATAN (Terang, Kemas & Senang Dibaca) -->
+  <div id="leaderboardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-md p-6 sm:p-7 shadow-2xl relative">
+      <button onclick="closeLeaderboardModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition p-2">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div class="flex items-center space-x-3.5 mb-5">
+        <div class="w-12 h-12 bg-amber-50 text-amber-600 border border-amber-200 rounded-2xl flex items-center justify-center">
+          <i class="fa-solid fa-trophy text-2xl"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-slate-900">Papan Skor JKE</h3>
+          <p class="text-xs text-slate-500 font-medium">Kedudukan Warga Jabatan Kejuruteraan Elektrik</p>
+        </div>
+      </div>
+
+      <!-- Senarai Skor -->
+      <div id="leaderboardList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+        <!-- Kandungan dinamik -->
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500 font-medium">
+        <span>*Skor dikira daripada ketepatan & masa</span>
+        <button onclick="showResetConfirm()" class="text-red-600 hover:text-red-700 font-bold">Set Semula</button>
+      </div>
+
+      <!-- Kotak Pengesahan Reset (Pengganti dialog asli) -->
+      <div id="resetConfirmBox" class="hidden mt-3 p-3.5 bg-red-50 border border-red-200 rounded-2xl text-xs text-center">
+        <p class="text-red-900 mb-2.5 font-bold">Set semula papan skor ke senarai asal?</p>
+        <div class="flex justify-center space-x-2">
+          <button onclick="confirmResetLeaderboard()" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl">Ya, Reset</button>
+          <button onclick="hideResetConfirm()" class="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl">Batal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Ringkas & Profesional -->
+  <footer class="py-4 border-t border-slate-200 bg-white/70 text-center text-xs text-slate-500 font-medium">
+    Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE) Politeknik
+  </footer>
+
+  <script>
+    /* ==========================================================
+       DATA SOALAN (Berdasarkan Hebahan Siri 1, 2, 3/2026)
+       ========================================================== */
+    const quizData = [
+      {
+        source: "Hebahan Siri 1/2026",
+        question: "Menurut konsep teras Pengurusan LEAN di JKE, penambahbaikan berterusan (continuous improvement) menumpukan kepada '3P' iaitu:",
+        options: [
+          { text: "Produk, Perkhidmatan atau Proses", isCorrect: true },
+          { text: "Pekerja, Peralatan atau Polisi", isCorrect: false },
+          { text: "Penyelidikan, Penerbitan atau Projek", isCorrect: false },
+          { text: "Prestasi, Pensyarah atau Pelajar", isCorrect: false }
+        ],
+        explanation: "Siri 1 mentakrifkan LEAN sebagai pendekatan organisasi yang menyokong penambahbaikan berterusan untuk menambah baik Produk, Perkhidmatan atau Proses (3P)."
+      },
+      {
+        source: "Hebahan Siri 2/2026",
+        question: "Dalam 3 Elemen Pelaksanaan LEAN, elemen manakah yang memastikan urutan tindakan dibuat pada 'keadaan yang betul, cara yang betul dan masa yang betul'?",
+        options: [
+          { text: "Proses (Process)", isCorrect: true },
+          { text: "Tujuan (Purpose)", isCorrect: false },
+          { text: "Manusia (People)", isCorrect: false },
+          { text: "Inovasi (Innovation)", isCorrect: false }
+        ],
+        explanation: "Elemen Proses (Process) adalah urutan tindakan yang perlu dijalankan pada keadaan yang betul, cara yang betul dan masa yang betul demi mencipta nilai tambah."
+      },
+      {
+        source: "Hebahan Siri 2/2026",
+        question: "Apakah MATLAMAT AKHIR pelaksanaan LEAN di jabatan kita seperti yang ditegaskan dalam poster hebahan?",
+        options: [
+          { text: "EFISIEN (Mengoptimumkan Masa, Tenaga, Sumber Manusia & Kewangan)", isCorrect: true },
+          { text: "PENJIMATAN (Memotong peruntukan bajet aktiviti jabatan)", isCorrect: false },
+          { text: "AUTOMATION (Menggantikan tugas pensyarah dengan robot)", isCorrect: false },
+          { text: "DOKUMENTASI (Menghasilkan timbunan fail rekod audit)", isCorrect: false }
+        ],
+        explanation: "Matlamat akhir LEAN adalah EFISIEN melalui pengoptimuman empat sumber: Masa, Tenaga, Sumber Manusia, dan Kewangan."
+      },
+      {
+        source: "Hebahan Siri 3/2026",
+        question: "Berdasarkan 8 pembaziran LEAN (TIM WOODS), tindakan staf mencetak borang dan menyemak berkali-kali secara manual sedangkan sistem atas talian sudah tersedia tergolong dalam:",
+        options: [
+          { text: "Lebihan Proses (Overprocessing)", isCorrect: true },
+          { text: "Pengangkutan (Transportation)", isCorrect: false },
+          { text: "Inventori (Inventory)", isCorrect: false },
+          { text: "Kecacatan (Defects)", isCorrect: false }
+        ],
+        explanation: "Lebihan Proses (Overprocessing) merujuk kepada melakukan langkah kerja tambahan yang lewah dan tidak memberi nilai tambah."
+      },
+      {
+        source: "Hebahan Siri 3/2026",
+        question: "Sekiranya staf yang berkemahiran tinggi dalam kerja membaik pulih peralatan elektrik hanya ditugaskan membuat kerja pemfailan kertas rutin setiap hari, pembaziran ini dipanggil:",
+        options: [
+          { text: "Bakat / Kemahiran (Skills)", isCorrect: true },
+          { text: "Pergerakan (Motion)", isCorrect: false },
+          { text: "Menunggu (Waiting)", isCorrect: false },
+          { text: "Lebihan Pengeluaran (Overproduction)", isCorrect: false }
+        ],
+        explanation: "Pembaziran Bakat/Kemahiran (Skills) merujuk kepada situasi di mana kepakaran teknikal, kemahiran amali, atau bakat staf tidak dimanfaatkan secara optimum oleh organisasi."
+      },
+      {
+        source: "Hebahan Siri 2/2026",
+        question: "Berikut merupakan antara 7 Kluster Pelaksanaan LEAN JKE, KECUALI:",
+        options: [
+          { text: "Pengiklanan & Pemasaran Komersial Luar", isCorrect: true },
+          { text: "Tadbir Urus & Inovasi", isCorrect: false },
+          { text: "Pengurusan Pelajar & Sistem Maklumat", isCorrect: false },
+          { text: "Kewangan & Pengurusan Sumber Manusia", isCorrect: false }
+        ],
+        explanation: "7 Kluster rasmi pelaksanaan LEAN merangkumi: Tadbir Urus, Inovasi, Pengurusan Pelajar, Sistem Maklumat, Kewangan & Perolehan, serta Pengurusan Sumber Manusia."
+      },
+      {
+        source: "Hebahan Siri 3/2026",
+        question: "Di dalam akronim 'TIM WOODS' (8 Pembaziran LEAN), apakah maksud huruf 'W' dan 'D'?",
+        options: [
+          { text: "Waiting (Menunggu) & Defect (Kecacatan / Kesilapan)", isCorrect: true },
+          { text: "Working (Bekerja) & Delivery (Penghantaran)", isCorrect: false },
+          { text: "Wasting (Membazir) & Digital (Pendigitalan)", isCorrect: false },
+          { text: "Workflow (Aliran) & Duty (Kewajipan)", isCorrect: false }
+        ],
+        explanation: "W = Waiting (Masa menunggu antara rantaian proses) dan D = Defect (Kesilapan yang memerlukan kerja semula)."
+      }
+    ];
+
+    /* ==========================================================
+       KEADAAN APLIKASI & PEMBOLEH UBAH
+       ========================================================== */
+    let currentQuestionIdx = 0;
+    let score = 0;
+    let streak = 0;
+    let maxStreak = 0;
+    let correctAnswersCount = 0;
+    let timer = null;
+    let timeLeft = 15;
+    const TIME_PER_QUESTION = 15;
+    let isAnswered = false;
+    let soundEnabled = true;
+    let currentPlayer = "Staf JKE";
+
+    /* ==========================================================
+       SINTESIS AUDIO DEBARAN MASA (Web Audio API)
+       Kesan degupan jantung & detikan masa yang mendebarkan
+       ========================================================== */
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Bunyi degupan jantung berdebar (Heartbeat Thump - Lub Dub)
+    function playHeartbeat(isUrgent = false) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+
+        // Dentuman pertama (Lub)
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        const startFreq = isUrgent ? 90 : 70;
+        osc1.frequency.setValueAtTime(startFreq, now);
+        osc1.frequency.exponentialRampToValueAtTime(32, now + 0.12);
+        
+        gain1.gain.setValueAtTime(isUrgent ? 0.55 : 0.35, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+        
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.14);
+
+        // Dentuman kedua (Dub, selang 0.14 saat)
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(startFreq - 12, now + 0.14);
+        osc2.frequency.exponentialRampToValueAtTime(28, now + 0.28);
+        
+        gain2.gain.setValueAtTime(isUrgent ? 0.45 : 0.25, now + 0.14);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        osc2.start(now + 0.14);
+        osc2.stop(now + 0.31);
+
+        // Detikan jam tajam
+        const clickOsc = audioCtx.createOscillator();
+        const clickGain = audioCtx.createGain();
+        clickOsc.type = 'triangle';
+        clickOsc.frequency.setValueAtTime(isUrgent ? 1350 : 850, now);
+        clickGain.gain.setValueAtTime(isUrgent ? 0.12 : 0.05, now);
+        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        
+        clickOsc.connect(clickGain);
+        clickGain.connect(audioCtx.destination);
+        clickOsc.start(now);
+        clickOsc.stop(now + 0.05);
+
+      } catch (e) {
+        console.warn("Audio Context Warning:", e);
+      }
+    }
+
+    // Bunyi maklum balas jawapan (Tepat / Tersilap / Tamat Masa)
+    function playEffect(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+
+        if (type === 'correct') {
+          // Melodi kejayaan manis
+          const freqs = [523.25, 659.25, 783.99, 1046.50];
+          freqs.forEach((f, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now + idx * 0.06);
+            gain.gain.setValueAtTime(0.2, now + idx * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45 + idx * 0.06);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.06);
+            osc.stop(now + 0.5 + idx * 0.06);
+          });
+        } else if (type === 'wrong') {
+          // Nada tersilap
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(160, now);
+          osc.frequency.linearRampToValueAtTime(90, now + 0.3);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.33);
+        } else if (type === 'timeout') {
+          // Bunyi tamat tempoh
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(110, now);
+          osc.frequency.exponentialRampToValueAtTime(40, now + 0.5);
+          gain.gain.setValueAtTime(0.4, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.52);
+        }
+      } catch (e) {
+        console.warn("Audio Effect Warning:", e);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      const label = document.getElementById('soundLabel');
+      if (soundEnabled) {
+        icon.className = "fa-solid fa-volume-high text-red-600";
+        label.innerText = "Kesan Audio";
+      } else {
+        icon.className = "fa-solid fa-volume-xmark text-slate-400";
+        label.innerText = "Bisu";
+      }
+    }
+
+    /* ==========================================================
+       LOGIK & KAWALAN PERJALANAN KUIZ
+       ========================================================== */
+    function startQuiz() {
+      const nameInput = document.getElementById('playerName');
+      const nameErr = document.getElementById('nameError');
+      const val = nameInput.value.trim();
+
+      if (!val) {
+        nameErr.classList.remove('hidden');
+        nameInput.focus();
+        return;
+      }
+      nameErr.classList.add('hidden');
+      currentPlayer = val;
+
+      // Reset markah dan penunjuk
+      currentQuestionIdx = 0;
+      score = 0;
+      streak = 0;
+      maxStreak = 0;
+      correctAnswersCount = 0;
+
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+
+      initAudio();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      isAnswered = false;
+      clearInterval(timer);
+      timeLeft = TIME_PER_QUESTION;
+
+      const q = quizData[currentQuestionIdx];
+
+      // Update Maklumat UI
+      document.getElementById('currentQuestionNum').innerText = currentQuestionIdx + 1;
+      document.getElementById('totalQuestionsNum').innerText = quizData.length;
+      document.getElementById('currentScore').innerText = score.toLocaleString();
+      document.getElementById('sourceTag').innerText = q.source;
+      document.getElementById('questionText').innerText = q.question;
+      document.getElementById('timeLeft').innerText = timeLeft;
+      document.getElementById('nextBtn').classList.add('hidden');
+      document.getElementById('explanationBox').classList.add('hidden');
+
+      const timerContainer = document.getElementById('timerContainer');
+      const timerIcon = document.getElementById('timerIcon');
+      const timeLeftText = document.getElementById('timeLeft');
+
+      // Reset Gaya Pemasa
+      timerContainer.className = "flex items-center space-x-2.5 bg-slate-100 px-4 py-2 rounded-2xl border border-slate-300 transition-all";
+      timerIcon.className = "fa-solid fa-heart-pulse text-red-600 text-base heartbeat-icon";
+      timeLeftText.className = "text-2xl font-black text-red-600 tracking-wider w-8 text-center";
+
+      // Badge Kombo
+      const streakBadge = document.getElementById('streakBadge');
+      if (streak >= 2) {
+        streakBadge.classList.remove('invisible');
+        document.getElementById('streakText').innerText = `${streak}x JAWAPAN BERTURUTAN! (+${streak * 25} Bonus)`;
+      } else {
+        streakBadge.classList.add('invisible');
+      }
+
+      // Bar Perkembangan
+      const progress = ((currentQuestionIdx) / quizData.length) * 100;
+      document.getElementById('progressBar').style.width = `${progress}%`;
+
+      // Papar Pilihan Jawapan (Secara Rawak, Kad Terang & Mudah Dibaca)
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+      shuffledOptions.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-red-500 transition-all font-semibold text-base text-slate-800 flex items-center justify-between group active:scale-[0.99] shadow-sm";
+        btn.innerHTML = `
+          <div class="flex items-center space-x-3.5">
+            <span class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 font-black text-sm flex items-center justify-center group-hover:bg-red-50 group-hover:text-red-700 group-hover:border-red-300 transition-colors">
+              ${String.fromCharCode(65 + idx)}
+            </span>
+            <span class="option-label leading-snug">${opt.text}</span>
+          </div>
+          <span class="icon-slot opacity-0 text-lg"></span>
+        `;
+        btn.onclick = () => selectOption(btn, opt, q);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Mainkan denyutan permulaan
+      playHeartbeat(false);
+
+      // Pemasa undur dengan audio debaran
+      timer = setInterval(() => {
+        timeLeft--;
+        timeLeftText.innerText = timeLeft;
+
+        // Keadaan cemas (< 5 saat)
+        if (timeLeft <= 5 && timeLeft > 0) {
+          playHeartbeat(true); // Degupan pantas & berdebar
+          timerContainer.className = "flex items-center space-x-2.5 px-4 py-2 rounded-2xl border-2 timer-alert shadow-md";
+          timerIcon.className = "fa-solid fa-triangle-exclamation text-base animate-bounce";
+        } else if (timeLeft > 0) {
+          playHeartbeat(false); // Degupan normal berirama
+        }
+
+        // Masa Tamat
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timeOutAnswer(q);
+        }
+      }, 1000);
+    }
+
+    function selectOption(selectedBtn, selectedOpt, currentQ) {
+      if (isAnswered) return;
+      isAnswered = true;
+      clearInterval(timer);
+
+      const allOptionButtons = document.querySelectorAll('#optionsContainer button');
+      const explanationBox = document.getElementById('explanationBox');
+      const explanationTitle = document.getElementById('explanationTitle');
+      const explanationText = document.getElementById('explanationText');
+      const explanationIcon = document.getElementById('explanationIcon');
+
+      if (selectedOpt.isCorrect) {
+        streak++;
+        if (streak > maxStreak) maxStreak = streak;
+
+        // Pengiraan markah
+        const timeBonus = timeLeft * 12;
+        const streakBonus = streak >= 2 ? streak * 30 : 0;
+        const earned = 100 + timeBonus + streakBonus;
+        score += earned;
+        correctAnswersCount++;
+
+        playEffect('correct');
+
+        // Pilihan Betul: Hijau lembut yang mesra mata & tulisan sangat jelas
+        selectedBtn.classList.remove('bg-white', 'hover:bg-slate-50', 'border-slate-200');
+        selectedBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-200');
+        selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
+        selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
+
+        // Kotak Penerangan
+        explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50/80 text-emerald-950 block";
+        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
+        explanationTitle.innerText = `Jawapan Tepat! (+${earned} Markah)`;
+        explanationTitle.className = "font-black text-emerald-800 text-base mb-1";
+        explanationText.innerText = currentQ.explanation;
+
+      } else {
+        streak = 0; // Reset streak
+        playEffect('wrong');
+
+        // Pilihan Salah: Merah jambu lembut
+        selectedBtn.classList.remove('bg-white', 'border-slate-200');
+        selectedBtn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-950');
+        selectedBtn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600"></i>';
+        selectedBtn.querySelector('.icon-slot').classList.remove('opacity-0');
+
+        // Tunjukkan pilihan yang sepatutnya betul
+        allOptionButtons.forEach(btn => {
+          const textSpan = btn.querySelector('.option-label');
+          if (textSpan && currentQ.options.find(o => o.text === textSpan.innerText && o.isCorrect)) {
+            btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950');
+            btn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
+            btn.querySelector('.icon-slot').classList.remove('opacity-0');
+          }
+        });
+
+        explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-800 block";
+        explanationIcon.innerHTML = '<i class="fa-solid fa-circle-info text-red-600"></i>';
+        explanationTitle.innerText = "Kurang Tepat!";
+        explanationTitle.className = "font-black text-red-700 text-base mb-1";
+        explanationText.innerText = currentQ.explanation;
+      }
+
+      // Kemas kini mata di atas
+      document.getElementById('currentScore').innerText = score.toLocaleString();
+
+      // Kunci semua butang
+      allOptionButtons.forEach(b => b.classList.add('cursor-not-allowed', 'pointer-events-none'));
+
+      // Tunjukkan butang seterusnya
+      document.getElementById('nextBtn').classList.remove('hidden');
+    }
+
+    function timeOutAnswer(currentQ) {
+      if (isAnswered) return;
+      isAnswered = true;
+      streak = 0;
+      playEffect('timeout');
+
+      const allOptionButtons = document.querySelectorAll('#optionsContainer button');
+      allOptionButtons.forEach(btn => {
+        const textSpan = btn.querySelector('.option-label');
+        if (textSpan && currentQ.options.find(o => o.text === textSpan.innerText && o.isCorrect)) {
+          btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950');
+          btn.querySelector('.icon-slot').innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
+          btn.querySelector('.icon-slot').classList.remove('opacity-0');
+        }
+        btn.classList.add('cursor-not-allowed', 'pointer-events-none');
+      });
+
+      const explanationBox = document.getElementById('explanationBox');
+      explanationBox.className = "mt-5 p-4 sm:p-5 rounded-2xl border-2 border-red-200 bg-red-50 text-red-950 block";
+      document.getElementById('explanationIcon').innerHTML = '<i class="fa-solid fa-hourglass-end text-red-600"></i>';
+      document.getElementById('explanationTitle').innerText = "Masa Berdebar Telah Tamat!";
+      document.getElementById('explanationTitle').className = "font-black text-red-700 text-base mb-1";
+      document.getElementById('explanationText').innerText = currentQ.explanation;
+
+      document.getElementById('nextBtn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQuestionIdx++;
+      if (currentQuestionIdx < quizData.length) {
+        loadQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      clearInterval(timer);
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.remove('hidden');
+
+      document.getElementById('finalPlayerName').innerText = currentPlayer;
+      document.getElementById('finalScore').innerText = score.toLocaleString();
+      
+      const accuracy = Math.round((correctAnswersCount / quizData.length) * 100);
+      document.getElementById('finalAccuracy').innerText = `${accuracy}%`;
+      document.getElementById('correctCount').innerText = `${correctAnswersCount} / ${quizData.length}`;
+      document.getElementById('maxComboText').innerText = `${maxStreak}x`;
+
+      const remarkEl = document.getElementById('resultRemark');
+      if (accuracy >= 85) {
+        remarkEl.innerText = "Luar Biasa! Pemahaman LEAN anda sangat cemerlang dan bersedia menjadi pemacu jabatan!";
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 120,
+            spread: 85,
+            origin: { y: 0.6 },
+            colors: ['#dc2626', '#b91c1c', '#f59e0b', '#10b981']
+          });
+        }
+      } else if (accuracy >= 60) {
+        remarkEl.innerText = "Tahniah! Pemahaman LEAN anda amat baik dan sedia diterapkan dalam kerja seharian.";
+      } else {
+        remarkEl.innerText = "Teruskan membaca 3 Siri E-Poster Hebahan LEAN untuk memperkukuh kefahaman.";
+      }
+
+      saveScore(currentPlayer, score, accuracy);
+    }
+
+    function restartQuiz() {
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+    }
+
+    /* ==========================================================
+       LEADERBOARD & LOCAL STORAGE
+       ========================================================== */
+    const DEFAULT_LEADERBOARD = [
+      { name: "Penyelaras LEAN JKE", score: 1480, accuracy: 100, date: "Hari ini" },
+      { name: "Ketua Jabatan JKE", score: 1420, accuracy: 100, date: "Hari ini" },
+      { name: "Ketua Program DEE", score: 1240, accuracy: 86, date: "Semalam" },
+      { name: "Ketua Program DEP", score: 1190, accuracy: 86, date: "Semalam" },
+      { name: "Pegawai Kualiti JKE", score: 1050, accuracy: 71, date: "2 hari lalu" }
+    ];
+
+    function getLeaderboard() {
+      const stored = localStorage.getItem('jke_lean_friendly_leaderboard');
+      if (!stored) {
+        localStorage.setItem('jke_lean_friendly_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
+        return DEFAULT_LEADERBOARD;
+      }
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return DEFAULT_LEADERBOARD;
+      }
+    }
+
+    function saveScore(name, newScore, accuracy) {
+      let list = getLeaderboard();
+      list.push({
+        name: name,
+        score: newScore,
+        accuracy: accuracy,
+        date: "Baru saja"
+      });
+      list.sort((a, b) => b.score - a.score);
+      list = list.slice(0, 10);
+      localStorage.setItem('jke_lean_friendly_leaderboard', JSON.stringify(list));
+    }
+
+    function openLeaderboardModal() {
+      const list = getLeaderboard();
+      const container = document.getElementById('leaderboardList');
+      container.innerHTML = '';
+      hideResetConfirm();
+
+      list.forEach((item, index) => {
+        let badgeStyle = "bg-slate-100 text-slate-700 border-slate-300";
+        let rankLabel = `#${index + 1}`;
+        if (index === 0) {
+          badgeStyle = "bg-amber-100 text-amber-900 font-extrabold border-amber-300";
+          rankLabel = '🥇';
+        } else if (index === 1) {
+          badgeStyle = "bg-slate-200 text-slate-800 font-bold border-slate-400";
+          rankLabel = '🥈';
+        } else if (index === 2) {
+          badgeStyle = "bg-orange-100 text-orange-900 font-bold border-orange-300";
+          rankLabel = '🥉';
+        }
+
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200";
+        row.innerHTML = `
+          <div class="flex items-center space-x-3.5">
+            <span class="w-9 h-9 rounded-xl flex items-center justify-center text-sm border ${badgeStyle}">
+              ${rankLabel}
+            </span>
+            <div>
+              <p class="text-sm font-bold text-slate-900 leading-tight mb-0.5">${escapeHtml(item.name)}</p>
+              <p class="text-xs text-slate-500 font-medium">${item.date} • ${item.accuracy}% Tepat</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-base font-black text-red-600">${item.score.toLocaleString()}</span>
+            <span class="text-[10px] text-slate-500 block uppercase font-bold">markah</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById('leaderboardModal').classList.remove('hidden');
+    }
+
+    function closeLeaderboardModal() {
+      document.getElementById('leaderboardModal').classList.add('hidden');
+      hideResetConfirm();
+    }
+
+    function showResetConfirm() {
+      document.getElementById('resetConfirmBox').classList.remove('hidden');
+    }
+
+    function hideResetConfirm() {
+      document.getElementById('resetConfirmBox').classList.add('hidden');
+    }
+
+    function confirmResetLeaderboard() {
+      localStorage.removeItem('jke_lean_friendly_leaderboard');
+      hideResetConfirm();
+      openLeaderboardModal();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    /* ==========================================================
+       WHATSAPP SHARING
+       ========================================================== */
+    function shareWhatsApp() {
+      const text = `⚡ *CABARAN KILAT KUIZ LEAN JKE* ⚡%0A%0A` +
+        `Saya baru selesai mencabar minda dalam Kuiz Pengurusan LEAN JKE!%0A` +
+        `👤 *Peserta:* ${encodeURIComponent(currentPlayer)}%0A` +
+        `🏆 *Markah:* ${score.toLocaleString()} Mata%0A` +
+        `🎯 *Ketepatan:* ${correctAnswersCount}/${quizData.length} Soalan Betul%0A%0A` +
+        `Bolehkah anda atasi rekod saya di Papan Skor JKE? Jom sahut cabaran sekarang! 🚀`;
+      
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${text}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Sokongan kekunci Enter pada nama
+    document.getElementById('playerName').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        startQuiz();
+      }
+    });
+  </script>
+</body>
+</html>
