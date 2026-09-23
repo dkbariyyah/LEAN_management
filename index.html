@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <!-- Sound & Cloud Status -->
+      <!-- Sound & Control -->
       <div class="flex items-center space-x-2">
         <button id="soundToggleBtn" onclick="toggleSound()" title="Tukar Kesan Audio" 
                 class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 transition flex items-center space-x-2 text-xs font-semibold">
@@ -85,10 +85,8 @@
     <!-- 1. START SCREEN -->
     <div id="startScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center relative overflow-hidden">
       
-      <!-- Decorative Accent Bar -->
       <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-red-500"></div>
 
-      <!-- Badge -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-bold mb-5">
         <i class="fa-solid fa-bolt-lightning text-red-500"></i>
         <span>Cabaran Ketangkasan Minda Staf JKE</span>
@@ -157,7 +155,6 @@
     <!-- 2. QUIZ SCREEN -->
     <div id="quizScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-5 sm:p-8 shadow-xl hidden relative">
       
-      <!-- Top Status Bar -->
       <div class="flex items-center justify-between gap-2 mb-4 pb-4 border-b border-slate-100">
         <div>
           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Soalan</span>
@@ -177,7 +174,6 @@
         </div>
       </div>
 
-      <!-- Streak & Source Banner -->
       <div class="flex items-center justify-between mb-3">
         <div id="streakBadge" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 invisible">
           <i class="fa-solid fa-fire text-amber-500"></i>
@@ -188,24 +184,18 @@
         </span>
       </div>
 
-      <!-- Progress Bar -->
       <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-6 border border-slate-200/50">
         <div id="progressBar" class="bg-gradient-to-r from-cyan-500 to-blue-600 h-full w-0 transition-all duration-300"></div>
       </div>
 
-      <!-- Question Text -->
       <div class="mb-6">
         <h3 id="questionText" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
           Soalan akan dimuatkan di sini...
         </h3>
       </div>
 
-      <!-- Options Container -->
-      <div id="optionsContainer" class="grid grid-cols-1 gap-3 mb-4">
-        <!-- Options generated dynamically -->
-      </div>
+      <div id="optionsContainer" class="grid grid-cols-1 gap-3 mb-4"></div>
 
-      <!-- Explanation Box -->
       <div id="explanationBox" class="hidden mt-4 p-4 rounded-2xl border text-sm leading-relaxed">
         <div class="flex items-start space-x-3">
           <span id="explanationIcon" class="text-lg mt-0.5"></span>
@@ -216,7 +206,6 @@
         </div>
       </div>
 
-      <!-- Next Button Area -->
       <div class="mt-6 flex justify-end">
         <button id="nextBtn" onclick="nextQuestion()" class="hidden px-6 py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow-lg shadow-cyan-600/20 transition items-center space-x-2">
           <span>Soalan Seterusnya</span>
@@ -229,7 +218,6 @@
     <!-- 3. RESULT SCREEN -->
     <div id="resultScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center hidden">
       
-      <!-- Trophy Icon -->
       <div class="w-20 h-20 mx-auto mb-4 rounded-3xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-500 text-3xl font-black shadow-inner">
         <i class="fa-solid fa-trophy"></i>
       </div>
@@ -237,7 +225,6 @@
       <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Tahniah, <span id="finalPlayerName" class="text-cyan-600"></span>!</h2>
       <p id="resultRemark" class="text-xs sm:text-sm text-slate-600 mb-6 font-medium">Anda telah menamatkan Cabaran Pengurusan LEAN JKE.</p>
 
-      <!-- Score Card -->
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 max-w-md mx-auto grid grid-cols-2 gap-4 text-center">
         <div class="bg-white p-3 rounded-xl border border-slate-200/80 shadow-sm">
           <span class="text-[11px] text-slate-400 font-bold block uppercase">Jumlah Skor</span>
@@ -257,21 +244,17 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="space-y-3 max-w-sm mx-auto">
-        <!-- WhatsApp Share Button -->
         <button onclick="shareWhatsApp()" class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-600/20 transition flex items-center justify-center space-x-2.5">
           <i class="fa-brands fa-whatsapp text-xl"></i>
           <span>Kongsi Skor ke WhatsApp JKE</span>
         </button>
 
-        <!-- View Leaderboard Button -->
         <button onclick="openLeaderboardModal()" class="w-full py-3.5 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition flex items-center justify-center space-x-2 border border-slate-200">
           <i class="fa-solid fa-ranking-star text-amber-500"></i>
           <span>Lihat Papan Skor Jabatan</span>
         </button>
 
-        <!-- Retry -->
         <button onclick="restartQuiz()" class="w-full py-2 text-xs text-slate-500 hover:text-slate-800 transition font-semibold">
           <i class="fa-solid fa-rotate-left mr-1"></i> Cuba Sekali Lagi
         </button>
@@ -299,53 +282,35 @@
         </div>
       </div>
 
-      <!-- Sync Status Indicator -->
+      <!-- Sync Status Badge -->
       <div id="cloudStatusBadge" class="mb-3 px-3 py-1.5 rounded-xl bg-slate-100 text-[11px] font-semibold text-slate-600 flex items-center justify-between">
         <span class="flex items-center space-x-1.5">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span id="cloudStatusText">Papan Skor Aktif</span>
+          <span id="cloudStatusText">Papan Skor Terselaras Google Sheets</span>
         </span>
-        <span class="text-slate-400 text-[10px]">Real-Time Sync</span>
+        <span class="text-slate-400 text-[10px]">Live Data</span>
       </div>
 
-      <!-- Leaderboard Items List -->
-      <div id="leaderboardList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
-        <!-- Dynamically populated -->
-      </div>
-
-      <!-- Custom Confirmation Box (Replaces confirm() dialog) -->
-      <div id="resetConfirmBox" class="hidden mt-3 p-3 bg-red-50 border border-red-200 rounded-xl text-center">
-        <p class="text-xs text-red-800 font-bold mb-2">Padam rekod skor dan kembali ke senarai asal?</p>
-        <div class="flex justify-center space-x-2">
-          <button onclick="executeResetLeaderboard()" class="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold">Ya, Padam</button>
-          <button onclick="hideResetConfirm()" class="px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">Batal</button>
-        </div>
-      </div>
+      <div id="leaderboardList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
 
       <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
         <span>*Mata dikira mengikut ketepatan & masa</span>
-        <button onclick="showResetConfirm()" class="text-red-500 hover:underline">Set Semula</button>
+        <button onclick="openLeaderboardModal()" class="text-cyan-600 hover:underline"><i class="fa-solid fa-rotate-right mr-1"></i>Muat Semula</button>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer class="py-4 border-t border-slate-200 bg-white text-center text-xs text-slate-500 font-medium">
     Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE)
   </footer>
 
   <script>
     /* ==========================================================
-       KONFIGURASI PENGKALAN DATA (DATABASE) PAPAN SKOR JKE
-       ========================================================== 
-       Jika anda mempunyai URL Google Sheets Apps Script, tampal di bawah.
-       Jika dibiarkan kosong, kuiz akan beroperasi menggunakan storan peranti (Local Storage).
-    */
+       KONFIGURASI PENGKALAN DATA (DATABASE) GOOGLE SHEETS JKE
+       ========================================================== */
     const GOOGLE_SHEETS_DATABASE_URL = "https://script.google.com/macros/s/AKfycbx6E8N-PAzsFU5ryNKwTVmUre_aqzTGGiaNjCJu1Hn0wS5VInwBAi5bJzN3c3Ze1twI/exec"; 
 
-    /* ==========================================================
-       DATA SOALAN (Berasaskan 3 Siri Poster Hebahan LEAN JKE)
-       ========================================================== */
+    /* DATA SOALAN */
     const quizData = [
       {
         source: "Hebahan Lean Siri 1/2026",
@@ -439,7 +404,6 @@
     let currentPlayer = "Staf JKE";
 
     let audioCtx = null;
-    
     function initAudio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -755,10 +719,6 @@
       }
 
       saveScore(currentPlayer, score, accuracy);
-      
-      if (typeof window.saveScoreToCloud === 'function') {
-        window.saveScoreToCloud(currentPlayer, score, accuracy);
-      }
     }
 
     function restartQuiz() {
@@ -805,8 +765,8 @@
       }
     }
 
-    async function saveScore(name, newScore, accuracy) {
-      // 1. Simpan secara tempatan pada peranti
+    function saveScore(name, newScore, accuracy) {
+      // 1. Simpan tempatan
       let list = getLocalLeaderboard();
       list.push({
         name: name,
@@ -818,19 +778,33 @@
       list = list.slice(0, 15);
       localStorage.setItem('jke_lean_leaderboard', JSON.stringify(list));
 
-      // 2. Simpan ke Google Sheets Database (jika diaktifkan)
+      // 2. Simpan ke Google Sheets (Kaedah Image Beacon - 100% Kalis Sekatan Pelayar)
       if (GOOGLE_SHEETS_DATABASE_URL && GOOGLE_SHEETS_DATABASE_URL.startsWith("http")) {
         try {
-          await fetch(GOOGLE_SHEETS_DATABASE_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: name,
-              score: newScore,
-              accuracy: accuracy
-            })
+          const params = new URLSearchParams({
+            name: name,
+            score: newScore,
+            accuracy: accuracy + "%",
+            t: new Date().getTime()
           });
+
+          const fullUrl = `${GOOGLE_SHEETS_DATABASE_URL}?${params.toString()}`;
+
+          // Kaedah 1: Image Beacon
+          const imgBeacon = new Image();
+          imgBeacon.src = fullUrl;
+
+          // Kaedah 2: Fetch no-cors
+          fetch(fullUrl, {
+            method: "GET",
+            mode: "no-cors",
+            cache: "no-cache"
+          }).catch(() => {});
+
+          // Kaedah 3: sendBeacon
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(fullUrl);
+          }
         } catch (err) {
           console.warn("Gagal menyimpan ke Google Sheets:", err);
         }
@@ -878,12 +852,10 @@
     };
 
     async function openLeaderboardModal() {
-      // Papar data tempatan serta-merta
       let list = getLocalLeaderboard();
       window.renderLeaderboardUI(list);
       document.getElementById('leaderboardModal').classList.remove('hidden');
 
-      // Semak jika terdapat kemaskini daripada Google Sheets
       if (GOOGLE_SHEETS_DATABASE_URL && GOOGLE_SHEETS_DATABASE_URL.startsWith("http")) {
         const cloudBadge = document.getElementById('cloudStatusText');
         if (cloudBadge) cloudBadge.innerText = "Menyelaras Data Awan...";
@@ -897,21 +869,6 @@
 
     function closeLeaderboardModal() {
       document.getElementById('leaderboardModal').classList.add('hidden');
-      hideResetConfirm();
-    }
-
-    function showResetConfirm() {
-      document.getElementById('resetConfirmBox').classList.remove('hidden');
-    }
-
-    function hideResetConfirm() {
-      document.getElementById('resetConfirmBox').classList.add('hidden');
-    }
-
-    function executeResetLeaderboard() {
-      localStorage.removeItem('jke_lean_leaderboard');
-      hideResetConfirm();
-      openLeaderboardModal();
     }
 
     function escapeHtml(text) {
