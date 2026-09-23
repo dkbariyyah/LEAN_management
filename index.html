@@ -8,10 +8,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Canvas Confetti -->
+  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
-  <!-- Font Awesome -->
+  <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Font: Poppins -->
@@ -57,9 +57,8 @@
       
       <!-- Logo + Department Title -->
       <div class="flex items-center space-x-3">
-        <!-- Logo Image File -->
         <div class="w-11 h-11 flex-shrink-0 bg-white rounded-full p-0.5 border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center">
-          <img src="logo.png" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='logo.png';">
+          <img src="logo.png" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.src='logo.jpg';">
         </div>
 
         <div>
@@ -70,25 +69,26 @@
         </div>
       </div>
 
-      <!-- Sound Toggle Button -->
-      <button id="soundToggleBtn" onclick="toggleSound()" title="Tukar Kesan Audio" 
-              class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 transition flex items-center space-x-2 text-xs font-semibold">
-        <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-600"></i>
-        <span class="hidden sm:inline">Kesan Audio</span>
-      </button>
+      <!-- Sound & Cloud Status -->
+      <div class="flex items-center space-x-2">
+        <button id="soundToggleBtn" onclick="toggleSound()" title="Tukar Kesan Audio" 
+                class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 transition flex items-center space-x-2 text-xs font-semibold">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-600"></i>
+          <span class="hidden sm:inline">Kesan Audio</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
   <main class="max-w-2xl mx-auto px-4 py-6 w-full flex-grow flex items-center justify-center">
 
     <!-- 1. START SCREEN -->
     <div id="startScreen" class="w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl text-center relative overflow-hidden">
       
-      <!-- Decorative Header Wave -->
+      <!-- Decorative Accent Bar -->
       <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-red-500"></div>
 
-      <!-- Department Emblem & Badge -->
+      <!-- Badge -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-bold mb-5">
         <i class="fa-solid fa-bolt-lightning text-red-500"></i>
         <span>Cabaran Ketangkasan Minda Staf JKE</span>
@@ -96,7 +96,7 @@
 
       <!-- Large Center Logo Display -->
       <div class="w-24 h-24 mx-auto mb-4 bg-white rounded-full p-1 border-2 border-slate-200 shadow-md flex items-center justify-center overflow-hidden">
-        <img src="logo.jpg" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='logo.png';">
+        <img src="logo.png" alt="Logo JKE" class="w-full h-full object-contain" onerror="this.src='logo.jpg';">
       </div>
 
       <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
@@ -159,7 +159,6 @@
       
       <!-- Top Status Bar -->
       <div class="flex items-center justify-between gap-2 mb-4 pb-4 border-b border-slate-100">
-        <!-- Question Tracker -->
         <div>
           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Soalan</span>
           <div class="text-base font-black text-slate-800">
@@ -167,13 +166,11 @@
           </div>
         </div>
 
-        <!-- Heartbeat Animated Timer -->
         <div id="timerContainer" class="flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200 transition-colors">
           <i id="timerIcon" class="fa-solid fa-stopwatch text-slate-600 text-sm"></i>
           <span id="timeLeft" class="text-base font-black text-slate-800 w-6 text-center">15</span>
         </div>
 
-        <!-- Current Score -->
         <div class="text-right">
           <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Skor Semasa</span>
           <div class="text-base font-black text-emerald-600" id="currentScore">0</div>
@@ -292,14 +289,23 @@
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
 
-      <div class="flex items-center space-x-3 mb-5">
+      <div class="flex items-center space-x-3 mb-4">
         <div class="p-3 bg-amber-100 text-amber-600 rounded-2xl">
           <i class="fa-solid fa-ranking-star text-xl"></i>
         </div>
         <div>
           <h3 class="text-lg font-black text-slate-900">Papan Skor JKE</h3>
-          <p class="text-xs font-semibold text-slate-500">Jabatan Kejuruteraan Elektrik</p>
+          <p class="text-xs font-semibold text-slate-500">Warga Jabatan Kejuruteraan Elektrik</p>
         </div>
+      </div>
+
+      <!-- Sync Status Indicator -->
+      <div id="cloudStatusBadge" class="mb-3 px-3 py-1.5 rounded-xl bg-slate-100 text-[11px] font-semibold text-slate-600 flex items-center justify-between">
+        <span class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="cloudStatusText">Papan Skor Aktif</span>
+        </span>
+        <span class="text-slate-400 text-[10px]">Real-Time Sync</span>
       </div>
 
       <!-- Leaderboard Items List -->
@@ -307,9 +313,18 @@
         <!-- Dynamically populated -->
       </div>
 
-      <div class="mt-5 pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
+      <!-- Custom Confirmation Box (Replaces confirm() dialog) -->
+      <div id="resetConfirmBox" class="hidden mt-3 p-3 bg-red-50 border border-red-200 rounded-xl text-center">
+        <p class="text-xs text-red-800 font-bold mb-2">Padam rekod skor dan kembali ke senarai asal?</p>
+        <div class="flex justify-center space-x-2">
+          <button onclick="executeResetLeaderboard()" class="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold">Ya, Padam</button>
+          <button onclick="hideResetConfirm()" class="px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">Batal</button>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400 font-medium">
         <span>*Mata dikira mengikut ketepatan & masa</span>
-        <button onclick="resetLeaderboard()" class="text-red-500 hover:underline">Set Semula Data</button>
+        <button onclick="showResetConfirm()" class="text-red-500 hover:underline">Set Semula</button>
       </div>
     </div>
   </div>
@@ -319,10 +334,82 @@
     Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE) Politeknik Kuching Sarawak
   </footer>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    let db = null;
+    let auth = null;
+    let currentUserId = null;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lean-quiz-jke';
+
+    async function initCloud() {
+      try {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const firebaseConfig = JSON.parse(__firebase_config);
+          const app = initializeApp(firebaseConfig);
+          db = getFirestore(app);
+          auth = getAuth(app);
+
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          currentUserId = auth.currentUser ? auth.currentUser.uid : crypto.randomUUID();
+          setupCloudListener();
+          document.getElementById('cloudStatusText').innerText = 'Papan Skor Terselaras (Live)';
+        }
+      } catch (err) {
+        console.warn("Papan skor beroperasi dalam mod peranti tempatan:", err);
+      }
+    }
+
+    function setupCloudListener() {
+      if (!db || !auth.currentUser) return;
+      const scoresCol = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
+      
+      onSnapshot(scoresCol, (snapshot) => {
+        const cloudScores = [];
+        snapshot.forEach((docSnap) => {
+          cloudScores.push(docSnap.data());
+        });
+
+        if (cloudScores.length > 0) {
+          cloudScores.sort((a, b) => b.score - a.score);
+          window.sharedCloudScores = cloudScores.slice(0, 15);
+          window.renderLeaderboardUI(window.sharedCloudScores);
+        }
+      }, (error) => {
+        console.warn("Ralat kemaskini papan skor langsung:", error);
+      });
+    }
+
+    window.saveScoreToCloud = async function(name, finalScore, finalAccuracy) {
+      if (!db || !auth.currentUser) return;
+      try {
+        const userDocId = `${currentUserId}_${Date.now()}`;
+        const scoreDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'scores', userDocId);
+        await setDoc(scoreDocRef, {
+          name: name,
+          score: finalScore,
+          accuracy: finalAccuracy,
+          timestamp: Date.now(),
+          date: "Hari ini"
+        });
+      } catch (err) {
+        console.warn("Gagal menyimpan skor ke awan:", err);
+      }
+    };
+
+    initCloud();
+  </script>
+
   <script>
     /* ==========================================================
-       1. SOALAN KUIZ (Berasaskan 3 Siri Poster Hebahan LEAN JKE)
+       DATA SOALAN (Berasaskan 3 Siri Poster Hebahan LEAN JKE)
        ========================================================== */
     const quizData = [
       {
@@ -404,9 +491,6 @@
       }
     ];
 
-    /* ==========================================================
-       2. STATE & VARIABLE MANAGEMENT
-       ========================================================== */
     let currentQuestionIdx = 0;
     let score = 0;
     let streak = 0;
@@ -419,9 +503,6 @@
     let soundEnabled = true;
     let currentPlayer = "Staf JKE";
 
-    /* ==========================================================
-       3. SYNTHESIZED AUDIO (Web Audio API)
-       ========================================================== */
     let audioCtx = null;
     
     function initAudio() {
@@ -518,9 +599,6 @@
       }
     }
 
-    /* ==========================================================
-       4. QUIZ LOGIC & FLOW
-       ========================================================== */
     function startQuiz() {
       const nameInput = document.getElementById('playerName');
       const nameErr = document.getElementById('nameError');
@@ -742,6 +820,10 @@
       }
 
       saveScore(currentPlayer, score, accuracy);
+      
+      if (typeof window.saveScoreToCloud === 'function') {
+        window.saveScoreToCloud(currentPlayer, score, accuracy);
+      }
     }
 
     function restartQuiz() {
@@ -749,9 +831,6 @@
       document.getElementById('startScreen').classList.remove('hidden');
     }
 
-    /* ==========================================================
-       5. LOCAL STORAGE & LEADERBOARD
-       ========================================================== */
     const DEFAULT_LEADERBOARD = [
       { name: "Penyelaras LEAN JKE", score: 1420, accuracy: 100, date: "Hari ini" },
       { name: "Ketua Jabatan JKE", score: 1380, accuracy: 100, date: "Hari ini" },
@@ -761,6 +840,9 @@
     ];
 
     function getLeaderboard() {
+      if (window.sharedCloudScores && window.sharedCloudScores.length > 0) {
+        return window.sharedCloudScores;
+      }
       const stored = localStorage.getItem('jke_lean_leaderboard');
       if (!stored) {
         localStorage.setItem('jke_lean_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
@@ -782,13 +864,13 @@
         date: "Baru saja"
       });
       list.sort((a, b) => b.score - a.score);
-      list = list.slice(0, 10);
+      list = list.slice(0, 15);
       localStorage.setItem('jke_lean_leaderboard', JSON.stringify(list));
     }
 
-    function openLeaderboardModal() {
-      const list = getLeaderboard();
+    window.renderLeaderboardUI = function(list) {
       const container = document.getElementById('leaderboardList');
+      if (!container) return;
       container.innerHTML = '';
 
       list.forEach((item, index) => {
@@ -814,7 +896,7 @@
             </span>
             <div>
               <p class="text-xs sm:text-sm font-bold text-slate-900 leading-none mb-1">${escapeHtml(item.name)}</p>
-              <p class="text-[10px] text-slate-500 font-medium">${item.date} • ${item.accuracy}% Tepat</p>
+              <p class="text-[10px] text-slate-500 font-medium">${item.date || 'Hari ini'} • ${item.accuracy}% Tepat</p>
             </div>
           </div>
           <div class="text-right">
@@ -824,19 +906,31 @@
         `;
         container.appendChild(row);
       });
+    };
 
+    function openLeaderboardModal() {
+      const list = getLeaderboard();
+      window.renderLeaderboardUI(list);
       document.getElementById('leaderboardModal').classList.remove('hidden');
     }
 
     function closeLeaderboardModal() {
       document.getElementById('leaderboardModal').classList.add('hidden');
+      hideResetConfirm();
     }
 
-    function resetLeaderboard() {
-      if (confirm("Adakah anda pasti mahu set semula papan skor kepada lalai?")) {
-        localStorage.removeItem('jke_lean_leaderboard');
-        openLeaderboardModal();
-      }
+    function showResetConfirm() {
+      document.getElementById('resetConfirmBox').classList.remove('hidden');
+    }
+
+    function hideResetConfirm() {
+      document.getElementById('resetConfirmBox').classList.add('hidden');
+    }
+
+    function executeResetLeaderboard() {
+      localStorage.removeItem('jke_lean_leaderboard');
+      hideResetConfirm();
+      openLeaderboardModal();
     }
 
     function escapeHtml(text) {
@@ -845,9 +939,6 @@
       return div.innerHTML;
     }
 
-    /* ==========================================================
-       6. WHATSAPP DIRECT SHARE
-       ========================================================== */
     function shareWhatsApp() {
       const text = `⚡ *CABARAN MINI KUIZ LEAN JKE* ⚡%0A%0A` +
         `Saya baru saja menamatkan Cabaran Kuiz Pengurusan LEAN JKE!%0A` +
