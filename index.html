@@ -331,83 +331,18 @@
 
   <!-- FOOTER -->
   <footer class="py-4 border-t border-slate-200 bg-white text-center text-xs text-slate-500 font-medium">
-    Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE) Politeknik Kuching Sarawak
+    Inisiatif Pengurusan LEAN • Jabatan Kejuruteraan Elektrik (JKE)
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    let db = null;
-    let auth = null;
-    let currentUserId = null;
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lean-quiz-jke';
-
-    async function initCloud() {
-      try {
-        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-          const firebaseConfig = JSON.parse(__firebase_config);
-          const app = initializeApp(firebaseConfig);
-          db = getFirestore(app);
-          auth = getAuth(app);
-
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
-
-          currentUserId = auth.currentUser ? auth.currentUser.uid : crypto.randomUUID();
-          setupCloudListener();
-          document.getElementById('cloudStatusText').innerText = 'Papan Skor Terselaras (Live)';
-        }
-      } catch (err) {
-        console.warn("Papan skor beroperasi dalam mod peranti tempatan:", err);
-      }
-    }
-
-    function setupCloudListener() {
-      if (!db || !auth.currentUser) return;
-      const scoresCol = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
-      
-      onSnapshot(scoresCol, (snapshot) => {
-        const cloudScores = [];
-        snapshot.forEach((docSnap) => {
-          cloudScores.push(docSnap.data());
-        });
-
-        if (cloudScores.length > 0) {
-          cloudScores.sort((a, b) => b.score - a.score);
-          window.sharedCloudScores = cloudScores.slice(0, 15);
-          window.renderLeaderboardUI(window.sharedCloudScores);
-        }
-      }, (error) => {
-        console.warn("Ralat kemaskini papan skor langsung:", error);
-      });
-    }
-
-    window.saveScoreToCloud = async function(name, finalScore, finalAccuracy) {
-      if (!db || !auth.currentUser) return;
-      try {
-        const userDocId = `${currentUserId}_${Date.now()}`;
-        const scoreDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'scores', userDocId);
-        await setDoc(scoreDocRef, {
-          name: name,
-          score: finalScore,
-          accuracy: finalAccuracy,
-          timestamp: Date.now(),
-          date: "Hari ini"
-        });
-      } catch (err) {
-        console.warn("Gagal menyimpan skor ke awan:", err);
-      }
-    };
-
-    initCloud();
-  </script>
-
   <script>
+    /* ==========================================================
+       KONFIGURASI PENGKALAN DATA (DATABASE) PAPAN SKOR JKE
+       ========================================================== 
+       Jika anda mempunyai URL Google Sheets Apps Script, tampal di bawah.
+       Jika dibiarkan kosong, kuiz akan beroperasi menggunakan storan peranti (Local Storage).
+    */
+    const GOOGLE_SHEETS_DATABASE_URL = "https://script.google.com/macros/s/AKfycbx6E8N-PAzsFU5ryNKwTVmUre_aqzTGGiaNjCJu1Hn0wS5VInwBAi5bJzN3c3Ze1twI/exec"; 
+
     /* ==========================================================
        DATA SOALAN (Berasaskan 3 Siri Poster Hebahan LEAN JKE)
        ========================================================== */
@@ -839,10 +774,25 @@
       { name: "Pegawai Kualiti JKE", score: 980, accuracy: 71, date: "2 hari lalu" }
     ];
 
-    function getLeaderboard() {
-      if (window.sharedCloudScores && window.sharedCloudScores.length > 0) {
-        return window.sharedCloudScores;
+    async function fetchLeaderboardFromCloud() {
+      if (!GOOGLE_SHEETS_DATABASE_URL || !GOOGLE_SHEETS_DATABASE_URL.startsWith("http")) {
+        return null;
       }
+      try {
+        const response = await fetch(GOOGLE_SHEETS_DATABASE_URL);
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            return data;
+          }
+        }
+      } catch (err) {
+        console.warn("Gagal memuat turun skor awan, guna mod luar talian:", err);
+      }
+      return null;
+    }
+
+    function getLocalLeaderboard() {
       const stored = localStorage.getItem('jke_lean_leaderboard');
       if (!stored) {
         localStorage.setItem('jke_lean_leaderboard', JSON.stringify(DEFAULT_LEADERBOARD));
@@ -855,8 +805,9 @@
       }
     }
 
-    function saveScore(name, newScore, accuracy) {
-      let list = getLeaderboard();
+    async function saveScore(name, newScore, accuracy) {
+      // 1. Simpan secara tempatan pada peranti
+      let list = getLocalLeaderboard();
       list.push({
         name: name,
         score: newScore,
@@ -866,6 +817,24 @@
       list.sort((a, b) => b.score - a.score);
       list = list.slice(0, 15);
       localStorage.setItem('jke_lean_leaderboard', JSON.stringify(list));
+
+      // 2. Simpan ke Google Sheets Database (jika diaktifkan)
+      if (GOOGLE_SHEETS_DATABASE_URL && GOOGLE_SHEETS_DATABASE_URL.startsWith("http")) {
+        try {
+          await fetch(GOOGLE_SHEETS_DATABASE_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: name,
+              score: newScore,
+              accuracy: accuracy
+            })
+          });
+        } catch (err) {
+          console.warn("Gagal menyimpan ke Google Sheets:", err);
+        }
+      }
     }
 
     window.renderLeaderboardUI = function(list) {
@@ -908,10 +877,22 @@
       });
     };
 
-    function openLeaderboardModal() {
-      const list = getLeaderboard();
+    async function openLeaderboardModal() {
+      // Papar data tempatan serta-merta
+      let list = getLocalLeaderboard();
       window.renderLeaderboardUI(list);
       document.getElementById('leaderboardModal').classList.remove('hidden');
+
+      // Semak jika terdapat kemaskini daripada Google Sheets
+      if (GOOGLE_SHEETS_DATABASE_URL && GOOGLE_SHEETS_DATABASE_URL.startsWith("http")) {
+        const cloudBadge = document.getElementById('cloudStatusText');
+        if (cloudBadge) cloudBadge.innerText = "Menyelaras Data Awan...";
+        const cloudData = await fetchLeaderboardFromCloud();
+        if (cloudData) {
+          window.renderLeaderboardUI(cloudData);
+          if (cloudBadge) cloudBadge.innerText = "Terselaras Google Sheets (Live)";
+        }
+      }
     }
 
     function closeLeaderboardModal() {
